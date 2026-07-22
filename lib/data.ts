@@ -161,8 +161,8 @@ export const ministries: Ministry[] = [
       'El bautismo es una celebración de una nueva vida. Acompañamos a cada persona con una clase corta antes de dar este paso significativo.',
     schedule: 'Varias fechas al año',
     audience: 'Nuevos creyentes',
-    image: '/images/ministry-baptism.png',
-    gallery: [],
+    image: '/images/real-bautismo-1.jpg',
+    gallery: ['/images/real-bautismo-2.jpg'],
   },
   {
     slug: 'ninos',

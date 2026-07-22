@@ -74,12 +74,6 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Link
-            href="/visita"
-            className="hidden rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-colors hover:bg-foreground/90 md:inline-flex"
-          >
-            Planea tu visita
-          </Link>
           <button
             type="button"
             onClick={() => setOpen(true)}
