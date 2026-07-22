@@ -22,13 +22,13 @@ export function History() {
           <SectionLabel number="01" className="text-muted-foreground">
             Nuestra historia
           </SectionLabel>
-          {/* TODO: placeholder — reemplazar con la historia real de Casa Vida cuando la envíen */}
           <Reveal delay={0.1}>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco
-              laboris nisi ut aliquip ex ea commodo consequat.
+              En 2022, Dios puso en el corazón de los pastores Carlos y
+              Karina la inquietud de alcanzar personas para Cristo desde sus
+              propias esferas de influencia. Esa inquietud creció hasta
+              convertirse en Casa Vida, una plantación que comenzó a
+              caminar en julio de 2023.
             </p>
           </Reveal>
 

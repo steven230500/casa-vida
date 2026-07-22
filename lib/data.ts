@@ -394,24 +394,29 @@ export const beliefs = [
   },
 ]
 
-// TODO: placeholder — reemplazar con la historia real de Casa Vida cuando la envíen
 export const timeline = [
   {
-    year: '20XX',
-    title: 'Lorem ipsum dolor sit amet',
-    text: 'Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    year: '2022',
+    title: 'Una inquietud de Dios',
+    text: 'Dios habla a los pastores Carlos y Karina sobre la necesidad de alcanzar personas para Cristo desde sus propias esferas de influencia: la educación, el arte, lo social, las nuevas generaciones y la familia.',
   },
   {
-    year: '20XX',
-    title: 'Ut enim ad minim veniam',
-    text: 'Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    year: '2023',
+    title: 'Comienza la plantación',
+    text: 'En julio, después de años sirviendo en su iglesia anterior, los pastores dan el paso de comenzar a caminar hacia lo que hoy es Casa Vida.',
   },
   {
-    year: '20XX',
-    title: 'Duis aute irure dolor',
-    text: 'In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+    year: '2026',
+    title: 'Una casa que crece',
+    text: 'Hoy seguimos caminando con el mismo corazón del comienzo: alcanzar, discipular y ver comunidades saludables que adoran.',
   },
 ]
+
+export const vision =
+  'Vemos hijos de Dios que adoran al Padre, comprometidos y unidos al cuerpo de Cristo, amando y sirviendo a la comunidad, que alcanzan y discipulan a los perdidos a través del evangelio de Jesucristo, hasta ver comunidades saludables que así mismo adoren.'
+
+export const mission =
+  'Ser y hacer discípulos de Jesús, caminando hacia la madurez espiritual, equipados para servir y transformar nuestra familia y entorno.'
 
 export const marqueeWords = [
   'Comunidad',
