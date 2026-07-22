@@ -139,7 +139,7 @@ export const ministries: Ministry[] = [
       'Adolescentes y jóvenes que quieren vivir su fe con autenticidad. Música, charlas honestas, juegos y grupos pequeños donde caben tus preguntas.',
     schedule: 'Sábados 5:00 p.m.',
     audience: '12 a 25 años',
-    image: '/images/ministry-youth.png',
+    image: '/images/real-jovenes.jpg',
     gallery: ['/images/gallery-youth.png'],
   },
   {
