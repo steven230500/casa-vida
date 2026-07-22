@@ -60,7 +60,7 @@ export const nav = [
   { label: 'Recursos', href: '/recursos' },
   { label: 'Eventos', href: '/eventos' },
   { label: 'Visita', href: '/visita' },
-  { label: 'Dar', href: '/dar' },
+  // { label: 'Dar', href: '/dar' }, // desactivado de momento
 ]
 
 export type ServiceTime = {
@@ -201,7 +201,7 @@ export const resources: Resource[] = [
     slug: 'una-casa-con-cimiento',
     type: 'predica',
     title: 'Una casa con cimiento',
-    speaker: 'Ps. Daniel Restrepo',
+    speaker: 'Ps. Carlos Guardela',
     series: 'Volver a casa',
     topic: 'Fundamentos',
     date: '2026-07-19',
@@ -217,7 +217,7 @@ export const resources: Resource[] = [
     slug: 'el-arte-de-empezar-de-nuevo',
     type: 'predica',
     title: 'El arte de empezar de nuevo',
-    speaker: 'Ps. Laura Mendoza',
+    speaker: 'Ps. Karina Torres',
     series: 'Volver a casa',
     topic: 'Gracia',
     date: '2026-07-12',
@@ -233,7 +233,7 @@ export const resources: Resource[] = [
     slug: 'oracion-que-sostiene',
     type: 'predica',
     title: 'La oración que sostiene',
-    speaker: 'Ps. Daniel Restrepo',
+    speaker: 'Ps. Carlos Guardela',
     series: 'Respira',
     topic: 'Oración',
     date: '2026-07-05',
@@ -249,7 +249,7 @@ export const resources: Resource[] = [
     slug: 'comunidad-imperfecta',
     type: 'ensenanza',
     title: 'Comunidad imperfecta',
-    speaker: 'Ps. Laura Mendoza',
+    speaker: 'Ps. Karina Torres',
     series: 'Respira',
     topic: 'Comunidad',
     date: '2026-06-28',
@@ -348,22 +348,16 @@ export type TeamMember = {
 
 export const team: TeamMember[] = [
   {
-    name: 'Daniel Restrepo',
+    name: 'Carlos Guardela',
     role: 'Pastor principal',
-    bio: 'Junto a su esposa Laura lidera Casa Vida con una pasión por una fe cercana y sencilla.',
+    bio: 'Lidera Casa Vida con una pasión por una fe cercana y sencilla.',
     image: '/images/real-pastor.jpg',
   },
   {
-    name: 'Laura Mendoza',
+    name: 'Karina Torres',
     role: 'Pastora',
-    bio: 'Acompaña a las familias y lidera el ministerio de mujeres y discipulado.',
+    bio: 'Acompaña a las familias y lidera el ministerio de discipulado.',
     image: '/images/real-pastora.jpg',
-  },
-  {
-    name: 'Andrés Payares',
-    role: 'Líder de jóvenes',
-    bio: 'Cree que esta generación puede marcar a Cartagena con esperanza.',
-    image: '/images/team-3.png',
   },
 ]
 
