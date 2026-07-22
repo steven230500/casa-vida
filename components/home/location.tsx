@@ -1,4 +1,4 @@
-import { MapPin, Car } from 'lucide-react'
+import { MapPin } from 'lucide-react'
 import { Reveal, MaskedHeading } from '@/components/motion/reveal'
 import { SectionLabel } from '@/components/brand/section-label'
 import { ArchButton } from '@/components/motion/magnetic'
@@ -26,17 +26,6 @@ export function Location() {
                 <p className="font-medium">Dirección</p>
                 <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                   {church.address}
-                </p>
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <Car className="mt-1 size-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
-              <div>
-                <p className="font-medium">Parqueo</p>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                  Contamos con parqueadero propio y zona de parqueo en vía
-                  frente al edificio, con acompañamiento del equipo de
-                  bienvenida.
                 </p>
               </div>
             </div>

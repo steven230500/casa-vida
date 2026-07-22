@@ -5,7 +5,6 @@ import { Transparency } from '@/components/giving/transparency'
 import { BankCard } from '@/components/giving/bank-card'
 import { Reveal, MaskedHeading } from '@/components/motion/reveal'
 import { SectionLabel } from '@/components/brand/section-label'
-import { ArchButton } from '@/components/motion/magnetic'
 import { church } from '@/lib/data'
 import { pageMetadata } from '@/lib/seo'
 
@@ -71,27 +70,6 @@ export default function DarPage() {
           <div className="mt-14 max-w-2xl">
             <BankCard />
           </div>
-        </div>
-      </section>
-
-      <section className="relative overflow-hidden bg-foreground py-16 text-background md:py-24">
-        <div className="mx-auto flex max-w-4xl flex-col items-center px-5 text-center">
-          <SectionLabel className="text-background/50">Fundación</SectionLabel>
-          <h2 className="mt-6 text-[clamp(2rem,6vw,4rem)] leading-[1.02] font-semibold tracking-[-0.03em]">
-            <MaskedHeading lines={['Amor con hechos', 'para Cartagena']} />
-          </h2>
-          <Reveal delay={0.15}>
-            <p className="mt-6 max-w-lg text-background/70">
-              Una parte de cada ofrenda sostiene la labor social de nuestra
-              Fundación: mercados, salud y acompañamiento para familias
-              vulnerables de la ciudad.
-            </p>
-          </Reveal>
-          <Reveal delay={0.25} className="mt-8">
-            <ArchButton href="/ministerios/fundacion" variant="beige">
-              Conoce la Fundación
-            </ArchButton>
-          </Reveal>
         </div>
       </section>
 

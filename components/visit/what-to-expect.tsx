@@ -1,4 +1,4 @@
-import { Shirt, Clock, Baby, ParkingCircle } from 'lucide-react'
+import { Shirt, Clock, Baby } from 'lucide-react'
 import { Reveal, MaskedHeading } from '@/components/motion/reveal'
 import { SectionLabel } from '@/components/brand/section-label'
 
@@ -18,11 +18,6 @@ const items = [
     title: '¿Y los niños?',
     text: 'Tenemos un espacio seguro y divertido para niños de 2 a 11 años durante todo el servicio.',
   },
-  {
-    icon: ParkingCircle,
-    title: '¿Dónde parqueo?',
-    text: 'Contamos con parqueadero propio y un equipo de bienvenida que te guía al llegar.',
-  },
 ]
 
 export function WhatToExpect() {
@@ -36,7 +31,7 @@ export function WhatToExpect() {
           <MaskedHeading lines={['Tu primera vez', 'sin sorpresas']} />
         </h2>
 
-        <div className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-3">
           {items.map((item, i) => (
             <Reveal key={item.title} delay={i * 0.08}>
               <item.icon className="size-6" strokeWidth={1.5} />

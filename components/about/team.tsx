@@ -14,14 +14,14 @@ export function Team() {
           <MaskedHeading lines={['Personas que', 'caminan contigo']} />
         </h2>
 
-        <div className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
           {team.map((member, i) => (
-            <Reveal key={member.name} delay={(i % 4) * 0.08}>
+            <Reveal key={member.name} delay={(i % 3) * 0.08}>
               <ArchFrame
                 src={member.image}
                 alt={member.name}
                 className="aspect-[3/4] w-full"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
               <h3 className="mt-5 text-lg font-semibold tracking-tight">
                 {member.name}

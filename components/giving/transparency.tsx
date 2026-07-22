@@ -1,13 +1,8 @@
-import { HandHeart, Building2, Users2 } from 'lucide-react'
+import { Building2, Users2 } from 'lucide-react'
 import { Reveal, MaskedHeading } from '@/components/motion/reveal'
 import { SectionLabel } from '@/components/brand/section-label'
 
 const uses = [
-  {
-    icon: HandHeart,
-    title: 'Fundación',
-    text: 'Alimento, educación y acompañamiento para familias vulnerables de Cartagena a través de nuestra labor social.',
-  },
   {
     icon: Users2,
     title: 'Ministerios',
@@ -33,12 +28,12 @@ export function Transparency() {
         <Reveal delay={0.1}>
           <p className="mt-6 max-w-xl text-muted-foreground">
             Cada ofrenda es administrada con cuidado por el equipo pastoral y
-            financiero de Casa Vida, con un compromiso especial con nuestra
-            Fundación y su labor social en la ciudad.
+            financiero de Casa Vida, siempre con transparencia hacia la
+            comunidad.
           </p>
         </Reveal>
 
-        <div className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-3">
+        <div className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 max-w-xl">
           {uses.map((u, i) => (
             <Reveal key={u.title} delay={i * 0.1}>
               <u.icon className="size-6" strokeWidth={1.5} />

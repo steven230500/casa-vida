@@ -1,0 +1,13 @@
+services:
+  casavida-app:
+    image: ghcr.io/steven230500/casa-vida:latest
+    container_name: casavida-app
+    restart: unless-stopped
+    expose:
+      - "3000"
+    networks:
+      - infra_infra_network
+
+networks:
+  infra_infra_network:
+    external: true

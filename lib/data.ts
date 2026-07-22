@@ -103,7 +103,7 @@ export const values = [
   {
     title: 'Servicio',
     description:
-      'Amamos a Cartagena con hechos: nuestra Fundación lleva esperanza al barrio.',
+      'Amamos a Cartagena con hechos: cada ministerio existe para llevar esperanza a la ciudad.',
     icon: 'heart',
   },
 ]
@@ -172,18 +172,7 @@ export const ministries: Ministry[] = [
       'Mientras los adultos están en el servicio, los niños viven la fe a su manera: historias, canciones, juegos y mucho cuidado por parte de un equipo capacitado.',
     schedule: 'Domingos 10:00 a.m.',
     audience: '2 a 11 años',
-    image: '/images/ministry-kids.png',
-    gallery: [],
-  },
-  {
-    slug: 'fundacion',
-    name: 'Fundación',
-    short: 'Amor con hechos en el corazón de Cartagena.',
-    description:
-      'Nuestra labor social lleva alimento, educación y acompañamiento a familias vulnerables de la ciudad. Puedes servir como voluntario o apoyar con tu ofrenda.',
-    schedule: 'Proyectos durante todo el año',
-    audience: 'Voluntarios y aliados',
-    image: '/images/ministry-foundation.png',
+    image: '/images/real-ninos.jpg',
     gallery: [],
   },
 ]
@@ -337,18 +326,6 @@ export const events: ChurchEvent[] = [
     registration: true,
   },
   {
-    slug: 'jornada-de-la-fundacion',
-    title: 'Jornada de la Fundación',
-    date: '2026-09-06',
-    time: '9:00 a.m.',
-    location: 'Barrio Olaya · Cartagena',
-    category: 'Servicio',
-    description:
-      'Salimos a servir a la ciudad: mercados, salud y esperanza para familias del barrio.',
-    image: '/images/event-foundation.png',
-    registration: true,
-  },
-  {
     slug: 'clase-de-bautismos',
     title: 'Clase de bautismos',
     date: '2026-09-20',
@@ -387,12 +364,6 @@ export const team: TeamMember[] = [
     role: 'Líder de jóvenes',
     bio: 'Cree que esta generación puede marcar a Cartagena con esperanza.',
     image: '/images/team-3.png',
-  },
-  {
-    name: 'Marcela Torres',
-    role: 'Directora de la Fundación',
-    bio: 'Coordina la labor social y los proyectos comunitarios de la iglesia.',
-    image: '/images/team-4.png',
   },
 ]
 
@@ -434,11 +405,6 @@ export const timeline = [
     year: '2015',
     title: 'Primer servicio público',
     text: 'Abrimos las puertas al barrio y celebramos nuestro primer servicio dominical.',
-  },
-  {
-    year: '2018',
-    title: 'Nace la Fundación',
-    text: 'Formalizamos nuestra labor social para servir a las familias de la ciudad.',
   },
   {
     year: '2026',
