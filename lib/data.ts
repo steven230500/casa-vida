@@ -389,21 +389,22 @@ export const beliefs = [
   },
 ]
 
+// TODO: placeholder — reemplazar con la historia real de Casa Vida cuando la envíen
 export const timeline = [
   {
-    year: '2012',
-    title: 'Una casa, una mesa',
-    text: 'Casa Vida comenzó como un pequeño grupo reuniéndose en una sala en Manga.',
+    year: '20XX',
+    title: 'Lorem ipsum dolor sit amet',
+    text: 'Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
-    year: '2015',
-    title: 'Primer servicio público',
-    text: 'Abrimos las puertas al barrio y celebramos nuestro primer servicio dominical.',
+    year: '20XX',
+    title: 'Ut enim ad minim veniam',
+    text: 'Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
   },
   {
-    year: '2026',
-    title: 'Una casa que crece',
-    text: 'Hoy somos una comunidad intergeneracional con el mismo corazón del primer día.',
+    year: '20XX',
+    title: 'Duis aute irure dolor',
+    text: 'In reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
   },
 ]
 

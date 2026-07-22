@@ -22,12 +22,13 @@ export function History() {
           <SectionLabel number="01" className="text-muted-foreground">
             Nuestra historia
           </SectionLabel>
+          {/* TODO: placeholder — reemplazar con la historia real de Casa Vida cuando la envíen */}
           <Reveal delay={0.1}>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-              Casa Vida nació en 2012 en una sala de Manga, con un puñado de
-              personas que creían que la fe se vive mejor cerca, sin
-              pretensiones. Catorce años después seguimos siendo esa misma
-              casa: más grande, pero con las puertas igual de abiertas.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco
+              laboris nisi ut aliquip ex ea commodo consequat.
             </p>
           </Reveal>
 
