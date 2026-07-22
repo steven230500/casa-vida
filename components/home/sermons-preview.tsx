@@ -49,8 +49,12 @@ export function SermonsPreview() {
                 </div>
                 <div className="mt-5 flex items-center gap-2 text-[11px] font-medium tracking-[0.2em] uppercase text-muted-foreground">
                   <span>{s.series}</span>
-                  <span aria-hidden>·</span>
-                  <span>{s.duration}</span>
+                  {s.duration && (
+                    <>
+                      <span aria-hidden>·</span>
+                      <span>{s.duration}</span>
+                    </>
+                  )}
                 </div>
                 <h3 className="mt-2 text-xl font-semibold leading-snug tracking-[-0.01em]">
                   {s.title}
