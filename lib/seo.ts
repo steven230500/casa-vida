@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { church, serviceTimes } from '@/lib/data'
 
-export const siteUrl = 'https://casavida.example'
+export const siteUrl = 'https://casavidactg.com'
 
 const dayMap: Record<string, string> = {
   Domingos: 'Sunday',
@@ -13,7 +13,7 @@ export const churchJsonLd = {
   '@type': 'Church',
   name: church.name,
   url: siteUrl,
-  image: `${siteUrl}/images/hero-arch.png`,
+  image: `${siteUrl}/images/real-pastor.jpg`,
   telephone: church.phone,
   email: church.email,
   address: {
@@ -50,7 +50,7 @@ export function pageMetadata({
   title,
   description,
   path,
-  image = '/images/hero-arch.png',
+  image = '/images/real-pastor.jpg',
 }: {
   title: string
   description: string
