@@ -11,7 +11,7 @@ export const church = {
   address: 'Manga, Cra 22 #29 — 2do Piso, Cartagena, Colombia',
   neighborhood: 'Manga',
   mapsQuery: 'Manga, Cra 22 %2329, Cartagena, Colombia',
-  phone: '+57 300 000 0000',
+  phone: '+57 301 2599057',
   email: 'hola@casavida.co',
   bank: {
     name: 'Bancolombia',
@@ -48,7 +48,7 @@ export const socials: Social[] = [
   {
     label: 'Canal de WhatsApp',
     handle: 'Casa Vida',
-    href: 'https://whatsapp.com/channel/casavida',
+    href: 'https://whatsapp.com/channel/0029VafmGVF2f3EMMBIqLt0n',
     description: 'Recordatorios de servicios, oración y avisos importantes.',
     platform: 'whatsapp',
   },
