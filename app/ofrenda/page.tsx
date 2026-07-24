@@ -9,10 +9,10 @@ import { church } from '@/lib/data'
 import { pageMetadata } from '@/lib/seo'
 
 export const metadata: Metadata = pageMetadata({
-  title: 'Dar',
+  title: 'Ofrenda',
   description:
     'Formas de dar tu ofrenda a Casa Vida en Cartagena: transferencia bancaria, Bre-B o en efectivo durante el servicio.',
-  path: '/dar',
+  path: '/ofrenda',
 })
 
 const options = [
@@ -33,11 +33,11 @@ const options = [
   },
 ]
 
-export default function DarPage() {
+export default function OfrendaPage() {
   return (
     <>
       <PageHero
-        label="Dar"
+        label="Ofrenda"
         lines={['Sembrar', 'en esta casa']}
         description="Dar es un acto de fe y de amor por la ciudad. Gracias por sostener lo que Dios está haciendo en Casa Vida."
       />

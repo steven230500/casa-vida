@@ -37,7 +37,7 @@ export function FinalCta() {
             <ArchButton href="/visita" variant="beige">
               Planea tu visita
             </ArchButton>
-            <ArchButton href="/dar" variant="outline">
+            <ArchButton href="/ofrenda" variant="outline">
               Dar una ofrenda
             </ArchButton>
           </div>

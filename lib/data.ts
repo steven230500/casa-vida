@@ -61,7 +61,7 @@ export const nav = [
   { label: 'Recursos', href: '/recursos' },
   { label: 'Eventos', href: '/eventos' },
   { label: 'Visita', href: '/visita' },
-  { label: 'Dar', href: '/dar' },
+  { label: 'Ofrenda', href: '/ofrenda' },
 ]
 
 export type ServiceTime = {
