@@ -1,65 +1,50 @@
 'use client'
 
+import { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { toast } from 'sonner'
 import { CheckCircle2 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
-
-const schema = z
-  .object({
-    anonymous: z.boolean(),
-    name: z.string().optional(),
-    email: z.string().optional(),
-    request: z.string().min(10, 'Cuéntanos un poco más sobre tu petición'),
-  })
-  .superRefine((data, ctx) => {
-    if (!data.anonymous) {
-      if (!data.name || data.name.trim().length < 2) {
-        ctx.addIssue({
-          code: 'custom',
-          path: ['name'],
-          message: 'Cuéntanos tu nombre',
-        })
-      }
-      if (!data.email || !z.string().email().safeParse(data.email).success) {
-        ctx.addIssue({
-          code: 'custom',
-          path: ['email'],
-          message: 'Ingresa un correo válido',
-        })
-      }
-    }
-  })
-
-type Values = z.infer<typeof schema>
+import { prayerSchema, type PrayerValues } from '@/lib/schemas'
 
 export function PrayerForm() {
+  const [sent, setSent] = useState(false)
   const {
     register,
     handleSubmit,
     control,
     watch,
     reset,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
-  } = useForm<Values>({
-    resolver: zodResolver(schema),
+    formState: { errors, isSubmitting },
+  } = useForm<PrayerValues>({
+    resolver: zodResolver(prayerSchema),
     defaultValues: { anonymous: false },
   })
 
   const anonymous = watch('anonymous')
 
-  async function onSubmit(_values: Values) {
-    await new Promise((r) => setTimeout(r, 800))
+  async function onSubmit(values: PrayerValues) {
+    const res = await fetch('/api/prayer', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(values),
+    })
+
+    if (!res.ok) {
+      toast.error('No pudimos enviar tu petición. Intenta de nuevo.')
+      return
+    }
+
+    setSent(true)
     toast.success('Recibimos tu petición. Oraremos por ti.')
     reset({ anonymous: false, name: '', email: '', request: '' })
   }
 
-  if (isSubmitSuccessful) {
+  if (sent) {
     return (
       <div className="flex flex-col items-center gap-3 rounded-t-[2.5rem] rounded-b-2xl border border-background/15 bg-background/5 px-8 py-16 text-center">
         <CheckCircle2 className="size-8 text-beige" strokeWidth={1.5} />

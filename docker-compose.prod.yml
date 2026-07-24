@@ -5,6 +5,8 @@ services:
     restart: unless-stopped
     expose:
       - "3000"
+    environment:
+      - RESEND_API_KEY=${RESEND_API_KEY}
     networks:
       - infra_infra_network
 

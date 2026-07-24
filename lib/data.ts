@@ -12,7 +12,7 @@ export const church = {
   neighborhood: 'Manga',
   mapsQuery: 'Manga, Cra 22 %2329, Cartagena, Colombia',
   phone: '+57 301 2599057',
-  email: 'hola@casavida.co',
+  email: 'casavidacorreo@gmail.com',
   bank: {
     name: 'Bancolombia',
     type: 'Cuenta de ahorros',

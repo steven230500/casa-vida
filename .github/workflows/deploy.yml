@@ -50,6 +50,11 @@ jobs:
             cp temp_repo/docker-compose.prod.yml docker-compose.yml
             rm -rf temp_repo
 
+            # Runtime secrets
+            cat > .env <<ENVEOF
+            RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
+            ENVEOF
+
             # Pull & Up
             $COMPOSE pull
             $COMPOSE up -d --remove-orphans

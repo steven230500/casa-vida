@@ -1,8 +1,8 @@
 'use client'
 
+import { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { toast } from 'sonner'
 import { CheckCircle2 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
@@ -15,37 +15,39 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-
-const schema = z.object({
-  name: z.string().min(2, 'Cuéntanos tu nombre'),
-  email: z.string().email('Ingresa un correo válido'),
-  phone: z.string().optional(),
-  service: z.enum(['domingo', 'jovenes']),
-  kids: z.string().optional(),
-  message: z.string().optional(),
-})
-
-type Values = z.infer<typeof schema>
+import { firstVisitSchema, type FirstVisitValues } from '@/lib/schemas'
 
 export function FirstVisitForm() {
+  const [sent, setSent] = useState(false)
   const {
     register,
     handleSubmit,
     control,
     reset,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
-  } = useForm<Values>({
-    resolver: zodResolver(schema),
+    formState: { errors, isSubmitting },
+  } = useForm<FirstVisitValues>({
+    resolver: zodResolver(firstVisitSchema),
     defaultValues: { service: 'domingo' },
   })
 
-  async function onSubmit(_values: Values) {
-    await new Promise((r) => setTimeout(r, 800))
+  async function onSubmit(values: FirstVisitValues) {
+    const res = await fetch('/api/first-visit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(values),
+    })
+
+    if (!res.ok) {
+      toast.error('No pudimos enviar tu solicitud. Intenta de nuevo.')
+      return
+    }
+
+    setSent(true)
     toast.success('¡Nos vemos pronto! Te escribiremos para confirmar.')
     reset({ service: 'domingo' })
   }
 
-  if (isSubmitSuccessful) {
+  if (sent) {
     return (
       <div className="flex flex-col items-center gap-3 rounded-t-[2.5rem] rounded-b-2xl border border-foreground/10 bg-muted px-8 py-16 text-center">
         <CheckCircle2 className="size-8" strokeWidth={1.5} />
