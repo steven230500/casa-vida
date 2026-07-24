@@ -16,9 +16,10 @@ export const church = {
   bank: {
     name: 'Bancolombia',
     type: 'Cuenta de ahorros',
-    number: '000-000000-00',
-    holder: 'Iglesia Casa Vida',
-    nit: '900.000.000-0',
+    number: '78900008356',
+    holder: 'Fundación Casa Vida',
+    nit: '902002497',
+    breBKey: '0090988965',
   },
 } as const
 
@@ -60,7 +61,7 @@ export const nav = [
   { label: 'Recursos', href: '/recursos' },
   { label: 'Eventos', href: '/eventos' },
   { label: 'Visita', href: '/visita' },
-  // { label: 'Dar', href: '/dar' }, // desactivado de momento
+  { label: 'Dar', href: '/dar' },
 ]
 
 export type ServiceTime = {

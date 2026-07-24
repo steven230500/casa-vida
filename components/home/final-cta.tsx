@@ -37,9 +37,9 @@ export function FinalCta() {
             <ArchButton href="/visita" variant="beige">
               Planea tu visita
             </ArchButton>
-            {/* <ArchButton href="/dar" variant="outline">
+            <ArchButton href="/dar" variant="outline">
               Dar una ofrenda
-            </ArchButton> */}
+            </ArchButton>
           </div>
         </Reveal>
         <Reveal delay={0.35}>

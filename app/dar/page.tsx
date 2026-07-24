@@ -11,7 +11,7 @@ import { pageMetadata } from '@/lib/seo'
 export const metadata: Metadata = pageMetadata({
   title: 'Dar',
   description:
-    'Formas de dar tu ofrenda a Casa Vida en Cartagena: transferencia bancaria, Nequi o en efectivo durante el servicio.',
+    'Formas de dar tu ofrenda a Casa Vida en Cartagena: transferencia bancaria, Bre-B o en efectivo durante el servicio.',
   path: '/dar',
 })
 
@@ -23,8 +23,8 @@ const options = [
   },
   {
     icon: Smartphone,
-    title: 'Nequi',
-    text: `Envía tu ofrenda al ${church.phone} con el nombre de ${church.name}.`,
+    title: 'Bre-B',
+    text: `Paga al instante desde la app de tu banco con la llave ${church.bank.breBKey}.`,
   },
   {
     icon: Banknote,
