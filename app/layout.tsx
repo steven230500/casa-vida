@@ -2,8 +2,6 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Poppins } from 'next/font/google'
 import { Toaster } from '@/components/ui/sonner'
-import { SiteHeader } from '@/components/layout/site-header'
-import { SiteFooter } from '@/components/layout/site-footer'
 import { siteUrl } from '@/lib/seo'
 import './globals.css'
 
@@ -78,9 +76,7 @@ export default function RootLayout({
   return (
     <html lang="es-CO" className={`light ${poppins.variable}`}>
       <body className="bg-background font-sans antialiased">
-        <SiteHeader />
-        <main>{children}</main>
-        <SiteFooter />
+        {children}
         <Toaster position="top-center" />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
