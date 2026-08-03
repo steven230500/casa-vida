@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { siteUrl } from '@/lib/seo'
-import { ministries, resources } from '@/lib/data'
+import { ministries } from '@/lib/data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
@@ -20,10 +20,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(),
   }))
 
-  const resourceRoutes = resources.map((r) => ({
-    url: `${siteUrl}/recursos/${r.slug}`,
-    lastModified: new Date(r.date),
-  }))
-
-  return [...staticRoutes, ...ministryRoutes, ...resourceRoutes]
+  return [...staticRoutes, ...ministryRoutes]
 }

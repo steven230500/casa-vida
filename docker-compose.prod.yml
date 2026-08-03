@@ -7,9 +7,18 @@ services:
       - "3000"
     environment:
       - RESEND_API_KEY=${RESEND_API_KEY}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_SESSION_SECRET=${ADMIN_SESSION_SECRET}
+      - DATA_FILE_PATH=/app/data/content.json
+    volumes:
+      - casavida_data:/app/data
     networks:
       - infra_infra_network
 
 networks:
   infra_infra_network:
     external: true
+
+volumes:
+  casavida_data:

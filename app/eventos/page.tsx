@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 import { PageHero } from '@/components/brand/page-hero'
 import { EventsExplorer } from '@/components/events/events-explorer'
-import { events } from '@/lib/data'
+import { listEvents } from '@/lib/store'
 import { pageMetadata } from '@/lib/seo'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = pageMetadata({
   title: 'Eventos',
@@ -11,7 +13,9 @@ export const metadata: Metadata = pageMetadata({
   path: '/eventos',
 })
 
-export default function EventosPage() {
+export default async function EventosPage() {
+  const events = await listEvents()
+
   return (
     <>
       <PageHero

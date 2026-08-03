@@ -1,8 +1,8 @@
 import { Reveal } from '@/components/motion/reveal'
 import { SectionLabel } from '@/components/brand/section-label'
-import { serviceTimes } from '@/lib/data'
+import type { ServiceTime } from '@/lib/data'
 
-export function ServiceTimes() {
+export function ServiceTimes({ serviceTimes }: { serviceTimes: ServiceTime[] }) {
   return (
     <section className="border-t border-foreground/10 bg-background py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-5 md:px-8">

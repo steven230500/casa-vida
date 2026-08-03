@@ -3,9 +3,9 @@ import Image from 'next/image'
 import { ArrowUpRight } from 'lucide-react'
 import { Reveal } from '@/components/motion/reveal'
 import { SectionLabel } from '@/components/brand/section-label'
-import { events, formatDate } from '@/lib/data'
+import { formatDate, type ChurchEvent } from '@/lib/data'
 
-export function EventsPreview() {
+export function EventsPreview({ events }: { events: ChurchEvent[] }) {
   const upcoming = events.slice(0, 3)
 
   return (

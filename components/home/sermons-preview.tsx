@@ -3,10 +3,10 @@ import Image from 'next/image'
 import { ArrowUpRight, Play } from 'lucide-react'
 import { Reveal } from '@/components/motion/reveal'
 import { SectionLabel } from '@/components/brand/section-label'
-import { resources } from '@/lib/data'
+import { sermons } from '@/lib/data'
 
 export function SermonsPreview() {
-  const sermons = resources.filter((r) => r.type === 'predica').slice(0, 3)
+  const latest = sermons.slice(0, 3)
 
   return (
     <section className="bg-background py-20 md:py-28">
@@ -30,9 +30,14 @@ export function SermonsPreview() {
         </div>
 
         <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {sermons.map((s, i) => (
+          {latest.map((s, i) => (
             <Reveal key={s.slug} delay={i * 0.08}>
-              <Link href={`/recursos/${s.slug}`} className="group block">
+              <a
+                href={`https://youtube.com/watch?v=${s.youtubeId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block"
+              >
                 <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-muted">
                   <Image
                     src={s.thumbnail || '/placeholder.svg'}
@@ -48,19 +53,13 @@ export function SermonsPreview() {
                   </div>
                 </div>
                 <div className="mt-5 flex items-center gap-2 text-[11px] font-medium tracking-[0.2em] uppercase text-muted-foreground">
-                  <span>{s.series}</span>
-                  {s.duration && (
-                    <>
-                      <span aria-hidden>·</span>
-                      <span>{s.duration}</span>
-                    </>
-                  )}
+                  <span>{s.series ?? s.topic}</span>
                 </div>
                 <h3 className="mt-2 text-xl font-semibold leading-snug tracking-[-0.01em]">
                   {s.title}
                 </h3>
                 <p className="mt-1 text-sm text-muted-foreground">{s.speaker}</p>
-              </Link>
+              </a>
             </Reveal>
           ))}
         </div>

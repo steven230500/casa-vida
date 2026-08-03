@@ -13,3 +13,6 @@ __v0_jsx-dev-runtime.ts
 node_modules
 .next/
 .DS_Store
+
+# Local admin content store (seeded copy, real data lives on the droplet volume)
+/data/

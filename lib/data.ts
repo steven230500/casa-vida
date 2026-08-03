@@ -178,29 +178,27 @@ export const ministries: Ministry[] = [
   },
 ]
 
-export type ResourceType = 'predica' | 'ensenanza' | 'devocional' | 'guia'
-
-export type Resource = {
+export type Sermon = {
   slug: string
-  type: ResourceType
   title: string
   speaker: string
   series?: string
   topic: string
   date: string // ISO
-  duration?: string
-  youtubeId?: string
+  youtubeId: string
   summary: string
   verses?: string[]
-  notesUrl?: string
   thumbnail: string
-  body?: string
 }
 
-export const resources: Resource[] = [
+/**
+ * Real prédicas pulled from youtube.com/@CasaVidatv. This list is a manual
+ * snapshot, not a live feed — update it as new sermons go up, or point
+ * "Ver canal completo" straight at YouTube for anything not listed here.
+ */
+export const sermons: Sermon[] = [
   {
     slug: 'que-es-la-fe',
-    type: 'predica',
     title: '¿Qué es la fe?',
     speaker: 'Ps. Carlos Guardela',
     series: 'Casa Vida Cree',
@@ -214,7 +212,6 @@ export const resources: Resource[] = [
   },
   {
     slug: 'comprometidos-familia-o-espectadores',
-    type: 'predica',
     title: 'Comprometidos: familia o espectadores',
     speaker: 'Ps. Carlos Guardela',
     series: 'Comprometidos',
@@ -228,7 +225,6 @@ export const resources: Resource[] = [
   },
   {
     slug: 'matando-al-idolo',
-    type: 'predica',
     title: 'Matando al ídolo',
     speaker: 'Ps. Carlos Guardela',
     series: 'Casa Vida Adora',
@@ -242,7 +238,6 @@ export const resources: Resource[] = [
   },
   {
     slug: 'resucito',
-    type: 'predica',
     title: 'Resucitó',
     speaker: 'Ps. Karina Torres',
     topic: 'Resurrección',
@@ -255,7 +250,6 @@ export const resources: Resource[] = [
   },
   {
     slug: 'permanecer',
-    type: 'ensenanza',
     title: 'Permanecer',
     speaker: 'Ps. Karina Torres',
     topic: 'Discipulado',
@@ -266,33 +260,9 @@ export const resources: Resource[] = [
     verses: ['Juan 15:1-8'],
     thumbnail: 'https://i.ytimg.com/vi/YqReIvS6i3U/hqdefault.jpg',
   },
-  {
-    slug: 'descansar-en-medio-del-ruido',
-    type: 'devocional',
-    title: 'Descansar en medio del ruido',
-    speaker: 'Equipo Casa Vida',
-    topic: 'Descanso',
-    date: '2026-07-18',
-    summary:
-      'Una lectura breve para recuperar el ritmo del descanso que Dios diseñó para ti.',
-    verses: ['Mateo 11:28-30'],
-    thumbnail: '/images/devo-1.png',
-    body:
-      'Vivimos rodeados de ruido: notificaciones, prisas, listas interminables. Jesús invita a los cansados a venir a Él. El descanso no es pereza, es confianza. Hoy, antes de correr, respira y recuerda que tu valor no depende de tu productividad, sino del amor de tu Padre.',
-  },
-  {
-    slug: 'guia-primeros-pasos',
-    type: 'guia',
-    title: 'Guía: Primeros pasos en la fe',
-    speaker: 'Equipo de discipulado',
-    topic: 'Discipulado',
-    date: '2026-06-01',
-    summary:
-      'Una guía descargable de cuatro semanas para quienes empiezan a caminar con Jesús.',
-    notesUrl: '/notas/primeros-pasos.pdf',
-    thumbnail: '/images/guide-1.png',
-  },
 ]
+
+export const youtubeChannel = 'https://youtube.com/@casavidatv'
 
 export type ChurchEvent = {
   slug: string
@@ -438,9 +408,3 @@ export function formatDate(iso: string) {
   })
 }
 
-export const resourceTypeLabels: Record<ResourceType, string> = {
-  predica: 'Prédicas',
-  ensenanza: 'Enseñanzas',
-  devocional: 'Devocionales',
-  guia: 'Guías de discipulado',
-}

@@ -10,8 +10,16 @@ import { Connect } from '@/components/home/connect'
 import { FinalCta } from '@/components/home/final-cta'
 import { marqueeWords } from '@/lib/data'
 import { churchJsonLd } from '@/lib/seo'
+import { listEvents, listServiceTimes } from '@/lib/store'
 
-export default function HomePage() {
+export const dynamic = 'force-dynamic'
+
+export default async function HomePage() {
+  const [events, serviceTimes] = await Promise.all([
+    listEvents(),
+    listServiceTimes(),
+  ])
+
   return (
     <>
       <script
@@ -20,11 +28,11 @@ export default function HomePage() {
       />
       <Hero />
       <Marquee items={marqueeWords} theme="beige" />
-      <ServiceTimes />
+      <ServiceTimes serviceTimes={serviceTimes} />
       <About />
       <MinistriesGrid />
       <SermonsPreview />
-      <EventsPreview />
+      <EventsPreview events={events} />
       <Location />
       <Connect />
       <FinalCta />
