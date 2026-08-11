@@ -1,7 +1,7 @@
 import { eq, like } from 'drizzle-orm'
 import { getDb } from '@/lib/db'
 import { events as eventsTable, serviceTimes as serviceTimesTable } from '@/lib/db/schema'
-import { events as seedEvents, serviceTimes as seedServiceTimes } from '@/lib/data'
+import { serviceTimes as seedServiceTimes } from '@/lib/data'
 import type { ChurchEvent, ServiceTime } from '@/lib/data'
 
 export type StoredEvent = ChurchEvent & { id: string }
@@ -15,11 +15,11 @@ function slugify(title: string) {
     .replace(/(^-|-$)/g, '')
 }
 
-// Uses onConflictDoNothing (keyed on the unique slug/day columns) instead of a
+// Uses onConflictDoNothing (keyed on the unique day column) instead of a
 // check-then-insert, so concurrent cold-start requests can't race and double-seed.
-async function ensureSeeded() {
+// Events have no placeholder data to seed - real ones only come from admin.
+async function ensureServiceTimesSeeded() {
   const db = getDb()
-  await db.insert(eventsTable).values(seedEvents).onConflictDoNothing()
   await db
     .insert(serviceTimesTable)
     .values(seedServiceTimes.map((s, i) => ({ ...s, order: i })))
@@ -27,7 +27,6 @@ async function ensureSeeded() {
 }
 
 export async function listEvents(): Promise<StoredEvent[]> {
-  await ensureSeeded()
   const db = getDb()
   const rows = await db.select().from(eventsTable)
   return rows.sort((a, b) => a.date.localeCompare(b.date))
@@ -82,7 +81,7 @@ export async function deleteEvent(id: string): Promise<boolean> {
 }
 
 export async function listServiceTimes(): Promise<ServiceTime[]> {
-  await ensureSeeded()
+  await ensureServiceTimesSeeded()
   const db = getDb()
   return db.select().from(serviceTimesTable).orderBy(serviceTimesTable.order)
 }

@@ -277,44 +277,7 @@ export type ChurchEvent = {
   registration: boolean
 }
 
-export const events: ChurchEvent[] = [
-  {
-    slug: 'noche-de-adoracion',
-    title: 'Noche de adoración',
-    date: '2026-08-08',
-    time: '7:00 p.m.',
-    location: 'Casa Vida · Manga',
-    category: 'Adoración',
-    description:
-      'Una noche entera dedicada a la presencia de Dios a través de la música y la oración.',
-    image: '/images/event-worship.png',
-    registration: true,
-  },
-  {
-    slug: 'retiro-de-jovenes',
-    title: 'Retiro de jóvenes',
-    date: '2026-08-22',
-    time: '8:00 a.m.',
-    location: 'Finca El Refugio · Turbaco',
-    category: 'Jóvenes',
-    description:
-      'Dos días fuera de la ciudad para desconectarte, hacer amigos y encontrarte con Dios.',
-    image: '/images/event-youth.png',
-    registration: true,
-  },
-  {
-    slug: 'clase-de-bautismos',
-    title: 'Clase de bautismos',
-    date: '2026-09-20',
-    time: '11:30 a.m.',
-    location: 'Casa Vida · Manga',
-    category: 'Bautismos',
-    description:
-      'Todo lo que necesitas saber antes de dar el paso del bautismo.',
-    image: '/images/ministry-baptism.png',
-    registration: true,
-  },
-]
+// No placeholder events - real ones are created by staff in /admin/eventos.
 
 export type TeamMember = {
   name: string

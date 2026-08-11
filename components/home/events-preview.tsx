@@ -1,12 +1,38 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, CalendarDays } from 'lucide-react'
 import { Reveal } from '@/components/motion/reveal'
 import { SectionLabel } from '@/components/brand/section-label'
 import { formatDate, type ChurchEvent } from '@/lib/data'
 
 export function EventsPreview({ events }: { events: ChurchEvent[] }) {
   const upcoming = events.slice(0, 3)
+
+  if (upcoming.length === 0) {
+    return (
+      <section className="border-t border-foreground/10 bg-background py-16 md:py-28">
+        <div className="mx-auto max-w-7xl px-5 md:px-8">
+          <SectionLabel number="05" className="text-muted-foreground">
+            Agenda
+          </SectionLabel>
+          <h2 className="mt-6 text-[clamp(2rem,5vw,3.75rem)] leading-[1.02] font-semibold tracking-[-0.03em] text-balance">
+            Próximos eventos
+          </h2>
+          <Reveal>
+            <div className="mt-12 flex flex-col items-start gap-4 rounded-t-[2.5rem] rounded-b-2xl border border-foreground/10 bg-muted px-8 py-14 md:py-16">
+              <div className="flex size-12 items-center justify-center rounded-full bg-background">
+                <CalendarDays className="size-5 text-muted-foreground" />
+              </div>
+              <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+                Todavía no hay eventos agendados. Estamos preparando lo que
+                viene — vuelve pronto.
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section className="border-t border-foreground/10 bg-background py-16 md:py-28">

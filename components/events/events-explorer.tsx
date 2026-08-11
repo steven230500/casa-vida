@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { MapPin, Clock } from 'lucide-react'
+import { MapPin, Clock, CalendarDays } from 'lucide-react'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { Reveal } from '@/components/motion/reveal'
 import { CalendarView } from '@/components/events/calendar-view'
@@ -11,6 +11,25 @@ import { formatDate, type ChurchEvent } from '@/lib/data'
 
 export function EventsExplorer({ events }: { events: ChurchEvent[] }) {
   const [registering, setRegistering] = useState<ChurchEvent | null>(null)
+
+  if (events.length === 0) {
+    return (
+      <Reveal>
+        <div className="flex flex-col items-center overflow-hidden rounded-t-[2.5rem] rounded-b-2xl border border-foreground/10 bg-beige px-8 py-20 text-center text-beige-foreground md:py-28">
+          <div className="flex size-14 items-center justify-center rounded-full bg-beige-foreground/10">
+            <CalendarDays className="size-6" />
+          </div>
+          <h3 className="mt-6 text-2xl font-semibold tracking-[-0.02em] md:text-3xl">
+            Todavía no hay eventos agendados
+          </h3>
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-beige-foreground/70">
+            Estamos preparando lo que viene. Vuelve pronto o síguenos en
+            redes para enterarte apenas se abra un nuevo evento.
+          </p>
+        </div>
+      </Reveal>
+    )
+  }
 
   return (
     <div>
