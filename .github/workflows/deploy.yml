@@ -49,14 +49,11 @@ jobs:
             git clone https://github.com/steven230500/casa-vida.git temp_repo
             cp temp_repo/docker-compose.prod.yml docker-compose.yml
 
-            # Runtime secrets
-            cat > .env <<ENVEOF
-            RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
-            ADMIN_USERNAME=${{ secrets.ADMIN_USERNAME }}
-            ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}
-            ADMIN_SESSION_SECRET=${{ secrets.ADMIN_SESSION_SECRET }}
-            POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
-            ENVEOF
+            # Runtime secrets - written as a single printf, not a heredoc.
+            # appleboy/ssh-action wraps every line of this script with its own
+            # exit-code tracking (for script_stop), which corrupts multi-line
+            # heredoc bodies by injecting garbage between each line.
+            printf 'RESEND_API_KEY=%s\nADMIN_USERNAME=%s\nADMIN_PASSWORD=%s\nADMIN_SESSION_SECRET=%s\nPOSTGRES_PASSWORD=%s\n' "${{ secrets.RESEND_API_KEY }}" "${{ secrets.ADMIN_USERNAME }}" "${{ secrets.ADMIN_PASSWORD }}" "${{ secrets.ADMIN_SESSION_SECRET }}" "${{ secrets.POSTGRES_PASSWORD }}" > .env
 
             # Pull & Up (casavida-app waits on casavida-db's healthcheck)
             $COMPOSE pull
