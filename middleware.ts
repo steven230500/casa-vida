@@ -11,6 +11,8 @@ const ADMIN_ONLY = [
   '/api/admin/events',
   '/admin/horarios',
   '/api/admin/service-times',
+  '/admin/usuarios',
+  '/api/admin/users',
 ]
 
 // servidor: read-only on Personas, no other admin section.

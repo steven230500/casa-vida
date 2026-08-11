@@ -9,6 +9,7 @@ const NAV_ITEMS: { href: string; label: string; roles: Role[] }[] = [
   { href: '/admin/horarios', label: 'Horarios', roles: ['admin'] },
   { href: '/admin/personas', label: 'Personas', roles: ['admin', 'servidor'] },
   { href: '/admin/agenda', label: 'Agenda', roles: ['admin', 'pastor'] },
+  { href: '/admin/usuarios', label: 'Usuarios', roles: ['admin'] },
 ]
 
 export default async function AdminDashboardLayout({
