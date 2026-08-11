@@ -46,7 +46,7 @@ async function seedUser() {
     const passwordHash = hashPassword(password);
 
     await sql`
-      INSERT INTO users (email, password_hash, full_name, role, pastor_name)
+      INSERT INTO admin_users (email, password_hash, full_name, role, pastor_name)
       VALUES (${email}, ${passwordHash}, ${fullName}, ${role}, ${pastorName})
       ON CONFLICT (email)
       DO UPDATE SET

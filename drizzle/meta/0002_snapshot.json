@@ -1,5 +1,5 @@
 {
-  "id": "1218c13c-2f8b-4985-ad0d-b25ccd1cd9d1",
+  "id": "5dd14ccc-921b-47eb-b1ea-35796546d934",
   "prevId": "50174996-b09f-48c6-99c9-8f2065641c61",
   "version": "7",
   "dialect": "postgresql",
@@ -411,8 +411,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.users": {
-      "name": "users",
+    "public.admin_users": {
+      "name": "admin_users",
       "schema": "",
       "columns": {
         "id": {
@@ -465,8 +465,8 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "users_email_unique": {
-          "name": "users_email_unique",
+        "admin_users_email_unique": {
+          "name": "admin_users_email_unique",
           "nullsNotDistinct": false,
           "columns": [
             "email"

@@ -12,7 +12,11 @@ import {
 export const roleValues = ['admin', 'pastor', 'servidor'] as const
 export type Role = (typeof roleValues)[number]
 
-export const users = pgTable('users', {
+// Named admin_users (not users) - this Postgres database is shared with the
+// casa_vida_forms repo, which already owns a table literally called "users"
+// with a completely different schema. Learned this the hard way: the first
+// migration attempt failed outright on CREATE TABLE "users" already exists.
+export const users = pgTable('admin_users', {
   id: uuid('id').primaryKey().defaultRandom(),
   email: text('email').notNull().unique(),
   passwordHash: text('password_hash').notNull(),
