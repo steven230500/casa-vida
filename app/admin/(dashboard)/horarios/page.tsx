@@ -10,9 +10,9 @@ export default async function AdminHorariosPage() {
     <div>
       <h1 className="text-2xl font-semibold tracking-tight">Horarios</h1>
       <p className="mt-2 text-sm text-muted-foreground">
-        Estos horarios aparecen en la sección "Nos reunimos" del inicio. El
-        footer y el formulario de primera visita todavía usan texto fijo —
-        avísame si quieres que también los conecte aquí.
+        Estos horarios aparecen en la sección "Nos reunimos" del inicio y en
+        el footer. Los que marques como ocultos no se muestran en el sitio,
+        pero quedan guardados para reactivarlos cuando quieras.
       </p>
       <div className="mt-8">
         <ServiceTimesEditor initialServiceTimes={serviceTimes} />

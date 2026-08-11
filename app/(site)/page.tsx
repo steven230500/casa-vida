@@ -10,14 +10,14 @@ import { Connect } from '@/components/home/connect'
 import { FinalCta } from '@/components/home/final-cta'
 import { marqueeWords } from '@/lib/data'
 import { churchJsonLd } from '@/lib/seo'
-import { listEvents, listServiceTimes } from '@/lib/store'
+import { listEvents, listActiveServiceTimes } from '@/lib/store'
 
 export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
   const [events, serviceTimes] = await Promise.all([
     listEvents(),
-    listServiceTimes(),
+    listActiveServiceTimes(),
   ])
 
   return (

@@ -1,0 +1,1 @@
+ALTER TABLE "service_times" ADD COLUMN "active" boolean DEFAULT true NOT NULL;

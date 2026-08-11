@@ -1,10 +1,44 @@
 'use client'
 
 import { useState } from 'react'
+import { Plus, Trash2 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
+import { Checkbox } from '@/components/ui/checkbox'
 import type { ServiceTime } from '@/lib/data'
+import { parseFriendlyTime, formatFriendlyTime } from '@/lib/time-format'
+
+const emptyRow: ServiceTime = {
+  day: '',
+  time: '',
+  title: '',
+  description: '',
+  active: true,
+}
+
+function TimeField({
+  id,
+  value,
+  onChange,
+}: {
+  id: string
+  value: string
+  onChange: (friendly: string) => void
+}) {
+  const picked = parseFriendlyTime(value) ?? ''
+  return (
+    <Input
+      id={id}
+      type="time"
+      value={picked}
+      onChange={(e) => {
+        if (e.target.value) onChange(formatFriendlyTime(e.target.value))
+      }}
+      required
+    />
+  )
+}
 
 export function ServiceTimesEditor({
   initialServiceTimes,
@@ -16,10 +50,20 @@ export function ServiceTimesEditor({
   const [saved, setSaved] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  function update(index: number, field: keyof ServiceTime, value: string) {
+  function update(index: number, field: keyof ServiceTime, value: string | boolean) {
     setTimes((prev) =>
       prev.map((t, i) => (i === index ? { ...t, [field]: value } : t)),
     )
+    setSaved(false)
+  }
+
+  function addRow() {
+    setTimes((prev) => [...prev, { ...emptyRow }])
+    setSaved(false)
+  }
+
+  function removeRow(index: number) {
+    setTimes((prev) => prev.filter((_, i) => i !== index))
     setSaved(false)
   }
 
@@ -50,8 +94,29 @@ export function ServiceTimesEditor({
       {times.map((t, i) => (
         <div
           key={i}
-          className="grid gap-5 rounded-t-[2.5rem] rounded-b-2xl border border-foreground/10 bg-muted p-8"
+          className={`grid gap-5 rounded-t-[2.5rem] rounded-b-2xl border border-foreground/10 p-8 transition-opacity ${
+            t.active ? 'bg-muted' : 'bg-muted/40 opacity-60'
+          }`}
         >
+          <div className="flex items-start justify-between gap-4">
+            <label className="flex w-fit items-center gap-2.5 text-sm">
+              <Checkbox
+                checked={t.active}
+                onCheckedChange={(checked) => update(i, 'active', Boolean(checked))}
+              />
+              Visible en el sitio
+            </label>
+            <button
+              type="button"
+              onClick={() => removeRow(i)}
+              aria-label="Eliminar horario"
+              className="inline-flex items-center gap-1.5 rounded-full border border-destructive/30 px-4 py-2 text-sm font-medium text-destructive transition-colors hover:bg-destructive/10"
+            >
+              <Trash2 className="size-3.5" />
+              Eliminar
+            </button>
+          </div>
+
           <div className="grid gap-5 sm:grid-cols-3">
             <div className="grid gap-2">
               <Label htmlFor={`st-day-${i}`}>Día</Label>
@@ -59,16 +124,16 @@ export function ServiceTimesEditor({
                 id={`st-day-${i}`}
                 value={t.day}
                 onChange={(e) => update(i, 'day', e.target.value)}
+                placeholder="Ej: Miércoles"
                 required
               />
             </div>
             <div className="grid gap-2">
               <Label htmlFor={`st-time-${i}`}>Hora</Label>
-              <Input
+              <TimeField
                 id={`st-time-${i}`}
                 value={t.time}
-                onChange={(e) => update(i, 'time', e.target.value)}
-                required
+                onChange={(friendly) => update(i, 'time', friendly)}
               />
             </div>
             <div className="grid gap-2">
@@ -93,6 +158,15 @@ export function ServiceTimesEditor({
           </div>
         </div>
       ))}
+
+      <button
+        type="button"
+        onClick={addRow}
+        className="inline-flex w-fit items-center gap-2 rounded-full border border-foreground/15 px-6 py-3 text-sm font-medium transition-colors hover:bg-muted"
+      >
+        <Plus className="size-4" />
+        Agregar horario
+      </button>
 
       {error && <p className="text-sm text-destructive">{error}</p>}
 

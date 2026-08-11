@@ -1,4 +1,4 @@
-import { eq, like } from 'drizzle-orm'
+import { eq, like, asc } from 'drizzle-orm'
 import { getDb } from '@/lib/db'
 import { events as eventsTable, serviceTimes as serviceTimesTable } from '@/lib/db/schema'
 import { serviceTimes as seedServiceTimes } from '@/lib/data'
@@ -80,10 +80,17 @@ export async function deleteEvent(id: string): Promise<boolean> {
   return Boolean(row)
 }
 
+// For admin - includes hidden (inactive) rows, so they can be toggled back on.
 export async function listServiceTimes(): Promise<ServiceTime[]> {
   await ensureServiceTimesSeeded()
   const db = getDb()
-  return db.select().from(serviceTimesTable).orderBy(serviceTimesTable.order)
+  return db.select().from(serviceTimesTable).orderBy(asc(serviceTimesTable.order))
+}
+
+// For the public site - only what staff has marked visible.
+export async function listActiveServiceTimes(): Promise<ServiceTime[]> {
+  const all = await listServiceTimes()
+  return all.filter((t) => t.active)
 }
 
 export async function replaceServiceTimes(

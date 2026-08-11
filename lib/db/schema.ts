@@ -30,6 +30,7 @@ export const serviceTimes = pgTable('service_times', {
   title: text('title').notNull(),
   description: text('description').notNull(),
   order: integer('order').notNull().default(0),
+  active: boolean('active').notNull().default(true),
 })
 
 export const peopleStatusValues = ['visitante', 'nuevo', 'miembro'] as const

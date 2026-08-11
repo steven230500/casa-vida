@@ -5,6 +5,7 @@ import { CheckCircle2, Clock } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
+import { DatePickerCalendar } from '@/components/booking/date-picker-calendar'
 
 type Slot = { availabilityId: string; startTime: string; endTime: string }
 
@@ -81,46 +82,39 @@ export function BookingFlow() {
 
   return (
     <div className="grid gap-8">
-      <div className="grid gap-2 sm:max-w-xs">
-        <Label htmlFor="cita-date">Elige una fecha</Label>
-        <Input
-          id="cita-date"
-          type="date"
-          min={todayISO()}
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
-      </div>
+      <div className="grid gap-6 sm:grid-cols-[auto_1fr] sm:items-start">
+        <DatePickerCalendar value={date} onChange={setDate} />
 
-      <div>
-        <p className="mb-4 text-sm font-medium text-muted-foreground">
-          Horarios disponibles
-        </p>
-        {loadingSlots ? (
-          <p className="text-sm text-muted-foreground">Cargando…</p>
-        ) : slots.length === 0 ? (
-          <p className="text-sm text-muted-foreground">
-            No hay horarios disponibles ese día. Prueba con otra fecha.
+        <div className="sm:pt-2">
+          <p className="mb-4 text-sm font-medium text-muted-foreground">
+            Horarios disponibles
           </p>
-        ) : (
-          <div className="flex flex-wrap gap-3">
-            {slots.map((s) => (
-              <button
-                key={s.startTime}
-                type="button"
-                onClick={() => setSelected(s)}
-                className={`inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-medium transition-colors ${
-                  selected?.startTime === s.startTime
-                    ? 'border-foreground bg-foreground text-background'
-                    : 'border-foreground/15 hover:bg-muted'
-                }`}
-              >
-                <Clock className="size-3.5" />
-                {s.startTime}
-              </button>
-            ))}
-          </div>
-        )}
+          {loadingSlots ? (
+            <p className="text-sm text-muted-foreground">Cargando…</p>
+          ) : slots.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              No hay horarios disponibles ese día. Prueba con otra fecha.
+            </p>
+          ) : (
+            <div className="flex flex-wrap gap-3">
+              {slots.map((s) => (
+                <button
+                  key={s.startTime}
+                  type="button"
+                  onClick={() => setSelected(s)}
+                  className={`inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-medium transition-colors ${
+                    selected?.startTime === s.startTime
+                      ? 'border-foreground bg-foreground text-background'
+                      : 'border-foreground/15 hover:bg-muted'
+                  }`}
+                >
+                  <Clock className="size-3.5" />
+                  {s.startTime}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {selected && (

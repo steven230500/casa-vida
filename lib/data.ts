@@ -70,6 +70,7 @@ export type ServiceTime = {
   time: string
   title: string
   description: string
+  active: boolean
 }
 
 export const serviceTimes: ServiceTime[] = [
@@ -79,6 +80,7 @@ export const serviceTimes: ServiceTime[] = [
     title: 'Servicio',
     description:
       'Nuestra reunión central: adoración, palabra y comunidad para toda la familia.',
+    active: true,
   },
   {
     day: 'Sábados',
@@ -86,6 +88,7 @@ export const serviceTimes: ServiceTime[] = [
     title: 'Jóvenes',
     description:
       'Un espacio para adolescentes y jóvenes: música, charlas y amistades reales.',
+    active: true,
   },
 ]
 
