@@ -5,8 +5,7 @@ import {
   startOfMonth,
   endOfMonth,
   startOfWeek,
-  endOfWeek,
-  eachDayOfInterval,
+  addDays,
   isSameMonth,
   isSameDay,
   isBefore,
@@ -37,19 +36,21 @@ export function DatePickerCalendar({
   const [month, setMonth] = useState(() => startOfMonth(selected))
   const today = startOfToday()
 
+  // Always 6 full weeks (42 days) so the card is the same height every
+  // month - some months lay out in 5 rows and some in 6, which was making
+  // the calendar (and everything below it) jump when you changed months.
   const days = useMemo(() => {
     const start = startOfWeek(startOfMonth(month), { weekStartsOn: 1 })
-    const end = endOfWeek(endOfMonth(month), { weekStartsOn: 1 })
-    return eachDayOfInterval({ start, end })
+    return Array.from({ length: 42 }, (_, i) => addDays(start, i))
   }, [month])
 
   return (
-    <div className="w-fit rounded-t-[2.5rem] rounded-b-2xl border border-foreground/10 bg-muted p-8">
-      <div className="flex items-center justify-between">
+    <div className="w-full rounded-t-[2.5rem] rounded-b-2xl border border-foreground/10 bg-muted p-8 sm:w-96">
+      <div className="flex items-center justify-between gap-4">
         <h3 className="text-xl font-semibold tracking-tight capitalize">
           {format(month, 'MMMM yyyy', { locale: es })}
         </h3>
-        <div className="flex items-center gap-1">
+        <div className="flex shrink-0 items-center gap-1">
           <button
             type="button"
             onClick={() => setMonth((m) => subMonths(m, 1))}
