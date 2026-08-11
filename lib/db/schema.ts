@@ -9,6 +9,23 @@ import {
   timestamp,
 } from 'drizzle-orm/pg-core'
 
+export const roleValues = ['admin', 'pastor', 'servidor'] as const
+export type Role = (typeof roleValues)[number]
+
+export const users = pgTable('users', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  email: text('email').notNull().unique(),
+  passwordHash: text('password_hash').notNull(),
+  fullName: text('full_name').notNull(),
+  role: text('role').$type<Role>().notNull().default('servidor'),
+  // Only meaningful for role='pastor' - scopes which pastor_availability /
+  // appointment rows they can see and edit (matched against
+  // pastorAvailability.pastorName, which stays free text on purpose since
+  // it's also shown publicly on /cita).
+  pastorName: text('pastor_name'),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+})
+
 export const events = pgTable('events', {
   id: uuid('id').primaryKey().defaultRandom(),
   slug: text('slug').notNull().unique(),

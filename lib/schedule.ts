@@ -22,9 +22,24 @@ function toHHMM(totalMinutes: number) {
   return `${h}:${m}`
 }
 
-export async function listAvailability(): Promise<Availability[]> {
+export async function listAvailability(pastorName?: string): Promise<Availability[]> {
   const db = getDb()
-  return db.select().from(pastorAvailability)
+  const query = db.select().from(pastorAvailability)
+  if (pastorName) {
+    return query.where(eq(pastorAvailability.pastorName, pastorName))
+  }
+  return query
+}
+
+/** For ownership checks before a pastor edits/deletes a block that isn't theirs. */
+export async function getAvailabilityPastorName(id: string): Promise<string | null> {
+  const db = getDb()
+  const [row] = await db
+    .select({ pastorName: pastorAvailability.pastorName })
+    .from(pastorAvailability)
+    .where(eq(pastorAvailability.id, id))
+    .limit(1)
+  return row?.pastorName ?? null
 }
 
 export async function createAvailability(input: {
@@ -127,9 +142,36 @@ export async function createAppointment(input: {
   return row
 }
 
-export async function listAppointments(): Promise<Appointment[]> {
+export async function listAppointments(pastorName?: string): Promise<Appointment[]> {
   const db = getDb()
+  if (pastorName) {
+    const rows = await db
+      .select({ appointment: appointments })
+      .from(appointments)
+      .innerJoin(
+        pastorAvailability,
+        eq(appointments.availabilityId, pastorAvailability.id),
+      )
+      .where(eq(pastorAvailability.pastorName, pastorName))
+      .orderBy(appointments.date, appointments.startTime)
+    return rows.map((r) => r.appointment)
+  }
   return db.select().from(appointments).orderBy(appointments.date, appointments.startTime)
+}
+
+/** For ownership checks before a pastor updates an appointment that isn't theirs. */
+export async function getAppointmentPastorName(id: string): Promise<string | null> {
+  const db = getDb()
+  const [row] = await db
+    .select({ pastorName: pastorAvailability.pastorName })
+    .from(appointments)
+    .innerJoin(
+      pastorAvailability,
+      eq(appointments.availabilityId, pastorAvailability.id),
+    )
+    .where(eq(appointments.id, id))
+    .limit(1)
+  return row?.pastorName ?? null
 }
 
 export async function updateAppointmentStatus(

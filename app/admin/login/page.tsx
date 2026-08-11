@@ -31,7 +31,14 @@ export default function AdminLoginPage() {
       return
     }
 
-    router.push('/admin/eventos')
+    const { role } = await res.json()
+    const landing =
+      role === 'pastor'
+        ? '/admin/agenda'
+        : role === 'servidor'
+          ? '/admin/personas'
+          : '/admin/eventos'
+    router.push(landing)
     router.refresh()
   }
 
@@ -50,7 +57,7 @@ export default function AdminLoginPage() {
           className="grid gap-5 rounded-t-[2.5rem] rounded-b-2xl border border-foreground/10 bg-muted p-8"
         >
           <div className="grid gap-2">
-            <Label htmlFor="admin-user">Usuario</Label>
+            <Label htmlFor="admin-user">Usuario o correo</Label>
             <Input
               id="admin-user"
               autoComplete="username"

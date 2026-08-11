@@ -1,10 +1,11 @@
 import { PeopleManager } from '@/components/admin/people-manager'
 import { listPeople } from '@/lib/people'
+import { getSession } from '@/lib/auth'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AdminPersonasPage() {
-  const people = await listPeople()
+  const [people, session] = await Promise.all([listPeople(), getSession()])
 
   return (
     <div>
@@ -13,7 +14,10 @@ export default async function AdminPersonasPage() {
         Visitantes, nuevos y miembros de Casa Vida.
       </p>
       <div className="mt-8">
-        <PeopleManager initialPeople={people} />
+        <PeopleManager
+          initialPeople={people}
+          readOnly={session?.role === 'servidor'}
+        />
       </div>
     </div>
   )

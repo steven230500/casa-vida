@@ -27,11 +27,13 @@ const dayLabel = (n: number) => days.find((d) => d.value === String(n))?.label ?
 
 export function AvailabilityManager({
   initialAvailability,
+  lockedPastorName = null,
 }: {
   initialAvailability: Availability[]
+  lockedPastorName?: string | null
 }) {
   const [items, setItems] = useState(initialAvailability)
-  const [pastorName, setPastorName] = useState('')
+  const [pastorName, setPastorName] = useState(lockedPastorName ?? '')
   const [dayOfWeek, setDayOfWeek] = useState('2')
   const [startTime, setStartTime] = useState('15:00')
   const [endTime, setEndTime] = useState('18:00')
@@ -65,7 +67,7 @@ export function AvailabilityManager({
 
     const { availability } = await res.json()
     setItems((prev) => [...prev, availability])
-    setPastorName('')
+    setPastorName(lockedPastorName ?? '')
     setSaving(false)
   }
 
@@ -90,6 +92,7 @@ export function AvailabilityManager({
             placeholder="Ps. Carlos Guardela"
             value={pastorName}
             onChange={(e) => setPastorName(e.target.value)}
+            disabled={Boolean(lockedPastorName)}
             required
           />
         </div>

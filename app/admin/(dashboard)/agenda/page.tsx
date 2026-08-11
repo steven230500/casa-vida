@@ -1,13 +1,17 @@
 import { AvailabilityManager } from '@/components/admin/availability-manager'
 import { AppointmentsList } from '@/components/admin/appointments-list'
 import { listAvailability, listAppointments } from '@/lib/schedule'
+import { getSession } from '@/lib/auth'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AdminAgendaPage() {
+  const session = await getSession()
+  const pastorName = session?.role === 'pastor' ? (session.pastorName ?? undefined) : undefined
+
   const [availability, appointments] = await Promise.all([
-    listAvailability(),
-    listAppointments(),
+    listAvailability(pastorName),
+    listAppointments(pastorName),
   ])
 
   return (
@@ -21,7 +25,10 @@ export default async function AdminAgendaPage() {
           <code className="text-xs">/cita</code> para agendar.
         </p>
         <div className="mt-8">
-          <AvailabilityManager initialAvailability={availability} />
+          <AvailabilityManager
+            initialAvailability={availability}
+            lockedPastorName={pastorName ?? null}
+          />
         </div>
       </div>
 

@@ -39,7 +39,13 @@ const emptyForm: FormState = {
   notes: '',
 }
 
-export function PeopleManager({ initialPeople }: { initialPeople: Person[] }) {
+export function PeopleManager({
+  initialPeople,
+  readOnly = false,
+}: {
+  initialPeople: Person[]
+  readOnly?: boolean
+}) {
   const [people, setPeople] = useState(initialPeople)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [creating, setCreating] = useState(false)
@@ -123,14 +129,20 @@ export function PeopleManager({ initialPeople }: { initialPeople: Person[] }) {
     <div>
       {!showForm && (
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <button
-            type="button"
-            onClick={startCreate}
-            className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-colors hover:bg-foreground/90"
-          >
-            <Plus className="size-4" />
-            Nueva persona
-          </button>
+          {readOnly ? (
+            <span className="text-sm text-muted-foreground">
+              Modo de solo lectura
+            </span>
+          ) : (
+            <button
+              type="button"
+              onClick={startCreate}
+              className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-colors hover:bg-foreground/90"
+            >
+              <Plus className="size-4" />
+              Nueva persona
+            </button>
+          )}
 
           <div className="flex items-center gap-2">
             {(['todos', 'nuevo', 'visitante', 'miembro'] as const).map((f) => (
@@ -280,24 +292,26 @@ export function PeopleManager({ initialPeople }: { initialPeople: Person[] }) {
                   {[p.email, p.phone].filter(Boolean).join(' · ') || '—'}
                 </p>
               </div>
-              <div className="flex gap-2 sm:col-span-4 sm:justify-end">
-                <button
-                  type="button"
-                  onClick={() => startEdit(p)}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-foreground/15 px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"
-                >
-                  <Pencil className="size-3.5" />
-                  Editar
-                </button>
-                <button
-                  type="button"
-                  onClick={() => onDelete(p.id)}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-destructive/30 px-4 py-2 text-sm font-medium text-destructive transition-colors hover:bg-destructive/10"
-                >
-                  <Trash2 className="size-3.5" />
-                  Eliminar
-                </button>
-              </div>
+              {!readOnly && (
+                <div className="flex gap-2 sm:col-span-4 sm:justify-end">
+                  <button
+                    type="button"
+                    onClick={() => startEdit(p)}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-foreground/15 px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"
+                  >
+                    <Pencil className="size-3.5" />
+                    Editar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onDelete(p.id)}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-destructive/30 px-4 py-2 text-sm font-medium text-destructive transition-colors hover:bg-destructive/10"
+                  >
+                    <Trash2 className="size-3.5" />
+                    Eliminar
+                  </button>
+                </div>
+              )}
             </div>
           ))}
         </div>

@@ -1,9 +1,66 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { SESSION_COOKIE, verifySessionToken } from '@/lib/auth'
+import { SESSION_COOKIE, verifySessionToken, type SessionPayload } from '@/lib/auth'
 
 export const runtime = 'nodejs'
 
 const PUBLIC_ADMIN_PATHS = ['/admin/login', '/api/admin/login']
+
+// admin-only sections - eventos/horarios stay a single-owner concern.
+const ADMIN_ONLY = [
+  '/admin/eventos',
+  '/api/admin/events',
+  '/admin/horarios',
+  '/api/admin/service-times',
+]
+
+// servidor: read-only on Personas, no other admin section.
+const SERVIDOR_ALLOWED_PREFIXES = ['/admin/personas', '/api/admin/people']
+
+// pastor: only Agenda (their own availability/appointments - the actual
+// per-pastor row scoping happens in the route handlers, not here).
+const PASTOR_ALLOWED_PREFIXES = [
+  '/admin/agenda',
+  '/api/admin/availability',
+  '/api/admin/appointments',
+]
+
+function denied(request: NextRequest) {
+  if (request.nextUrl.pathname.startsWith('/api')) {
+    return NextResponse.json({ error: 'No autorizado' }, { status: 403 })
+  }
+  // Send them somewhere their role can actually see instead of a dead end.
+  return NextResponse.redirect(new URL('/admin', request.url))
+}
+
+function checkRoleAccess(
+  request: NextRequest,
+  session: SessionPayload,
+): NextResponse | null {
+  const { pathname } = request.nextUrl
+  if (session.role === 'admin') return null
+
+  // The bare index just internally redirects to whatever the role can
+  // actually see - exempt it, or a non-admin lands in a redirect loop.
+  if (pathname === '/admin') return null
+
+  if (ADMIN_ONLY.some((p) => pathname.startsWith(p))) return denied(request)
+
+  if (session.role === 'servidor') {
+    const allowed = SERVIDOR_ALLOWED_PREFIXES.some((p) => pathname.startsWith(p))
+    if (!allowed) return denied(request)
+    // Read-only: any write to /api/admin/people is admin-only.
+    if (pathname.startsWith('/api/admin/people') && request.method !== 'GET') {
+      return denied(request)
+    }
+  }
+
+  if (session.role === 'pastor') {
+    const allowed = PASTOR_ALLOWED_PREFIXES.some((p) => pathname.startsWith(p))
+    if (!allowed) return denied(request)
+  }
+
+  return null
+}
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -13,18 +70,20 @@ export function middleware(request: NextRequest) {
   }
 
   const token = request.cookies.get(SESSION_COOKIE)?.value
-  const authed = verifySessionToken(token)
+  const session = verifySessionToken(token)
 
-  if (authed) {
-    return NextResponse.next()
+  if (!session) {
+    if (pathname.startsWith('/api/admin')) {
+      return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
+    }
+    const loginUrl = new URL('/admin/login', request.url)
+    return NextResponse.redirect(loginUrl)
   }
 
-  if (pathname.startsWith('/api/admin')) {
-    return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
-  }
+  const roleCheck = checkRoleAccess(request, session)
+  if (roleCheck) return roleCheck
 
-  const loginUrl = new URL('/admin/login', request.url)
-  return NextResponse.redirect(loginUrl)
+  return NextResponse.next()
 }
 
 export const config = {

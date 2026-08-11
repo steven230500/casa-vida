@@ -1,13 +1,30 @@
 import { NextResponse } from 'next/server'
 import { listAvailability, createAvailability } from '@/lib/schedule'
+import { getSession } from '@/lib/auth'
 
 export async function GET() {
-  const availability = await listAvailability()
+  const session = await getSession()
+  const availability = await listAvailability(
+    session?.role === 'pastor' ? (session.pastorName ?? undefined) : undefined,
+  )
   return NextResponse.json({ availability })
 }
 
 export async function POST(request: Request) {
+  const session = await getSession()
   const body = await request.json()
+
+  // Pastors can only create blocks under their own name, regardless of
+  // what the request body says.
+  if (session?.role === 'pastor') {
+    if (!session.pastorName) {
+      return NextResponse.json(
+        { error: 'Tu cuenta no está vinculada a un nombre de pastor' },
+        { status: 403 },
+      )
+    }
+    body.pastorName = session.pastorName
+  }
 
   if (
     typeof body.pastorName !== 'string' ||

@@ -15,6 +15,13 @@
       "when": 1786484266936,
       "tag": "0001_sparkling_firebird",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1786485789052,
+      "tag": "0002_yummy_puma",
+      "breakpoints": true
     }
   ]
 }
