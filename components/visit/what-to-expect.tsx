@@ -11,7 +11,7 @@ const items = [
   {
     icon: Clock,
     title: '¿Cuánto dura?',
-    text: 'El servicio dura aproximadamente una hora y quince minutos, con tiempo para saludarte al final.',
+    text: 'El servicio dura máximo dos horas, con tiempo para saludarte al final.',
   },
   {
     icon: Baby,
