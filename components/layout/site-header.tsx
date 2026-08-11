@@ -26,9 +26,21 @@ export function SiteHeader() {
   }, [pathname])
 
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
+    if (!open) return
+
+    const scrollY = window.scrollY
+    const { style } = document.body
+    style.position = 'fixed'
+    style.top = `-${scrollY}px`
+    style.left = '0'
+    style.right = '0'
+
     return () => {
-      document.body.style.overflow = ''
+      style.position = ''
+      style.top = ''
+      style.left = ''
+      style.right = ''
+      window.scrollTo({ top: scrollY, behavior: 'instant' })
     }
   }, [open])
 
