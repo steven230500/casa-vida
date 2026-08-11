@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import { Logo } from '@/components/brand/logo'
 import { NewsletterForm } from '@/components/forms/newsletter-form'
-import { church, nav, serviceTimes, socials } from '@/lib/data'
+import { FooterServiceTimes } from '@/components/layout/footer-service-times'
+import { church, nav, socials } from '@/lib/data'
 
 export function SiteFooter() {
   return (
@@ -37,16 +38,7 @@ export function SiteFooter() {
             <h3 className="text-[11px] font-medium tracking-[0.28em] text-background/50 uppercase">
               Horarios
             </h3>
-            <ul className="mt-5 space-y-4">
-              {serviceTimes.map((s) => (
-                <li key={s.title} className="text-sm">
-                  <p className="font-medium">{s.day}</p>
-                  <p className="text-background/60">
-                    {s.time} · {s.title}
-                  </p>
-                </li>
-              ))}
-            </ul>
+            <FooterServiceTimes />
             <h3 className="mt-8 text-[11px] font-medium tracking-[0.28em] text-background/50 uppercase">
               Dónde estamos
             </h3>

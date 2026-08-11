@@ -10,10 +10,7 @@ services:
       - ADMIN_USERNAME=${ADMIN_USERNAME}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - ADMIN_SESSION_SECRET=${ADMIN_SESSION_SECRET}
-      - DATA_FILE_PATH=/app/data/content.json
       - DATABASE_URL=postgres://casavida:${POSTGRES_PASSWORD}@casavida-db:5432/casavida
-    volumes:
-      - casavida_data:/app/data
     networks:
       - infra_infra_network
       - casavida_internal
@@ -45,5 +42,4 @@ networks:
   casavida_internal:
 
 volumes:
-  casavida_data:
   casavida_pgdata:
