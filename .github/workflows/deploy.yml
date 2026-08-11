@@ -44,11 +44,10 @@ jobs:
             mkdir -p "$SERVER_PATH"
             cd "$SERVER_PATH"
 
-            # Pull config from repo directly
+            # Pull config from repo directly (kept until after migrations run)
             rm -rf temp_repo
             git clone https://github.com/steven230500/casa-vida.git temp_repo
             cp temp_repo/docker-compose.prod.yml docker-compose.yml
-            rm -rf temp_repo
 
             # Runtime secrets
             cat > .env <<ENVEOF
@@ -56,10 +55,24 @@ jobs:
             ADMIN_USERNAME=${{ secrets.ADMIN_USERNAME }}
             ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}
             ADMIN_SESSION_SECRET=${{ secrets.ADMIN_SESSION_SECRET }}
+            POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
             ENVEOF
 
-            # Pull & Up
+            # Pull & Up (casavida-app waits on casavida-db's healthcheck)
             $COMPOSE pull
             $COMPOSE up -d --remove-orphans
+
+            # Apply pending SQL migrations against casavida-db using a throwaway
+            # node container on the same internal network - drizzle-kit isn't
+            # bundled in the standalone production image, so this runs from a
+            # full checkout instead.
+            INTERNAL_NET=$(docker network ls --filter name=casavida_internal --format '{{.Name}}' | head -1)
+            docker run --rm \
+              --network "$INTERNAL_NET" \
+              -v "$(pwd)/temp_repo:/app" -w /app \
+              -e DATABASE_URL="postgres://casavida:${{ secrets.POSTGRES_PASSWORD }}@casavida-db:5432/casavida" \
+              node:20-alpine sh -c "corepack enable && corepack prepare pnpm@9.15.4 --activate && pnpm install --frozen-lockfile && pnpm exec drizzle-kit migrate"
+
+            rm -rf temp_repo
 
             echo "Deployment to $SERVER_PATH completed successfully"

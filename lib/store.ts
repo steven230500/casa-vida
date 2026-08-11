@@ -1,92 +1,99 @@
-import { promises as fs } from 'fs'
-import path from 'path'
-import { randomUUID } from 'crypto'
+import { eq, like } from 'drizzle-orm'
+import { getDb } from '@/lib/db'
+import { events as eventsTable, serviceTimes as serviceTimesTable } from '@/lib/db/schema'
 import { events as seedEvents, serviceTimes as seedServiceTimes } from '@/lib/data'
 import type { ChurchEvent, ServiceTime } from '@/lib/data'
 
 export type StoredEvent = ChurchEvent & { id: string }
 
-type ContentStore = {
-  events: StoredEvent[]
-  serviceTimes: ServiceTime[]
+function slugify(title: string) {
+  return title
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
 }
 
-const DATA_FILE =
-  process.env.DATA_FILE_PATH ?? path.join(process.cwd(), 'data', 'content.json')
-
-async function readStore(): Promise<ContentStore> {
-  try {
-    const raw = await fs.readFile(DATA_FILE, 'utf-8')
-    return JSON.parse(raw) as ContentStore
-  } catch {
-    const seeded: ContentStore = {
-      events: seedEvents.map((e) => ({ ...e, id: randomUUID() })),
-      serviceTimes: seedServiceTimes,
-    }
-    await writeStore(seeded)
-    return seeded
-  }
-}
-
-async function writeStore(data: ContentStore) {
-  await fs.mkdir(path.dirname(DATA_FILE), { recursive: true })
-  await fs.writeFile(DATA_FILE, JSON.stringify(data, null, 2), 'utf-8')
+// Uses onConflictDoNothing (keyed on the unique slug/day columns) instead of a
+// check-then-insert, so concurrent cold-start requests can't race and double-seed.
+async function ensureSeeded() {
+  const db = getDb()
+  await db.insert(eventsTable).values(seedEvents).onConflictDoNothing()
+  await db
+    .insert(serviceTimesTable)
+    .values(seedServiceTimes.map((s, i) => ({ ...s, order: i })))
+    .onConflictDoNothing()
 }
 
 export async function listEvents(): Promise<StoredEvent[]> {
-  const store = await readStore()
-  return [...store.events].sort((a, b) => a.date.localeCompare(b.date))
+  await ensureSeeded()
+  const db = getDb()
+  const rows = await db.select().from(eventsTable)
+  return rows.sort((a, b) => a.date.localeCompare(b.date))
 }
 
 export async function createEvent(
   input: Omit<ChurchEvent, 'slug'> & { slug?: string },
 ): Promise<StoredEvent> {
-  const store = await readStore()
-  const slug =
-    input.slug?.trim() ||
-    input.title
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[̀-ͯ]/g, '')
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '')
-  const event: StoredEvent = { ...input, slug, id: randomUUID() }
-  store.events.push(event)
-  await writeStore(store)
-  return event
+  const db = getDb()
+  const base = input.slug?.trim() || slugify(input.title)
+  const taken = new Set(
+    (
+      await db
+        .select({ slug: eventsTable.slug })
+        .from(eventsTable)
+        .where(like(eventsTable.slug, `${base}%`))
+    ).map((r) => r.slug),
+  )
+  let slug = base
+  let n = 2
+  while (taken.has(slug)) {
+    slug = `${base}-${n}`
+    n += 1
+  }
+  const [row] = await db
+    .insert(eventsTable)
+    .values({ ...input, slug })
+    .returning()
+  return row
 }
 
 export async function updateEvent(
   id: string,
   input: Partial<ChurchEvent>,
 ): Promise<StoredEvent | null> {
-  const store = await readStore()
-  const idx = store.events.findIndex((e) => e.id === id)
-  if (idx === -1) return null
-  store.events[idx] = { ...store.events[idx], ...input }
-  await writeStore(store)
-  return store.events[idx]
+  const db = getDb()
+  const [row] = await db
+    .update(eventsTable)
+    .set(input)
+    .where(eq(eventsTable.id, id))
+    .returning()
+  return row ?? null
 }
 
 export async function deleteEvent(id: string): Promise<boolean> {
-  const store = await readStore()
-  const before = store.events.length
-  store.events = store.events.filter((e) => e.id !== id)
-  if (store.events.length === before) return false
-  await writeStore(store)
-  return true
+  const db = getDb()
+  const [row] = await db
+    .delete(eventsTable)
+    .where(eq(eventsTable.id, id))
+    .returning({ id: eventsTable.id })
+  return Boolean(row)
 }
 
 export async function listServiceTimes(): Promise<ServiceTime[]> {
-  const store = await readStore()
-  return store.serviceTimes
+  await ensureSeeded()
+  const db = getDb()
+  return db.select().from(serviceTimesTable).orderBy(serviceTimesTable.order)
 }
 
 export async function replaceServiceTimes(
   times: ServiceTime[],
 ): Promise<ServiceTime[]> {
-  const store = await readStore()
-  store.serviceTimes = times
-  await writeStore(store)
+  const db = getDb()
+  await db.delete(serviceTimesTable)
+  await db
+    .insert(serviceTimesTable)
+    .values(times.map((t, i) => ({ ...t, order: i })))
   return times
 }

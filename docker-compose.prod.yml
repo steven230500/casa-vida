@@ -11,14 +11,39 @@ services:
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - ADMIN_SESSION_SECRET=${ADMIN_SESSION_SECRET}
       - DATA_FILE_PATH=/app/data/content.json
+      - DATABASE_URL=postgres://casavida:${POSTGRES_PASSWORD}@casavida-db:5432/casavida
     volumes:
       - casavida_data:/app/data
     networks:
       - infra_infra_network
+      - casavida_internal
+    depends_on:
+      casavida-db:
+        condition: service_healthy
+
+  casavida-db:
+    image: postgres:16-alpine
+    container_name: casavida-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=casavida
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=casavida
+    volumes:
+      - casavida_pgdata:/var/lib/postgresql/data
+    networks:
+      - casavida_internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U casavida"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 networks:
   infra_infra_network:
     external: true
+  casavida_internal:
 
 volumes:
   casavida_data:
+  casavida_pgdata:

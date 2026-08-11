@@ -61,6 +61,7 @@ export const nav = [
   { label: 'Recursos', href: '/recursos' },
   { label: 'Eventos', href: '/eventos' },
   { label: 'Visita', href: '/visita' },
+  { label: 'Cita', href: '/cita' },
   { label: 'Ofrenda', href: '/ofrenda' },
 ]
 

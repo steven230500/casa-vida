@@ -34,6 +34,18 @@ export default function AdminDashboardLayout({
               >
                 Horarios
               </Link>
+              <Link
+                href="/admin/personas"
+                className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
+              >
+                Personas
+              </Link>
+              <Link
+                href="/admin/agenda"
+                className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
+              >
+                Agenda
+              </Link>
             </nav>
           </div>
           <LogoutButton />

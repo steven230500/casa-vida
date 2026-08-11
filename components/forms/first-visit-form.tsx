@@ -99,7 +99,14 @@ export function FirstVisitForm() {
             control={control}
             name="service"
             render={({ field }) => (
-              <Select value={field.value} onValueChange={field.onChange}>
+              <Select
+                items={[
+                  { value: 'domingo', label: 'Servicio dominical · 10:00 a.m.' },
+                  { value: 'jovenes', label: 'Jóvenes · sábados 5:00 p.m.' },
+                ]}
+                value={field.value}
+                onValueChange={field.onChange}
+              >
                 <SelectTrigger id="visit-service" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
