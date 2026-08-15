@@ -3,7 +3,12 @@ import { SESSION_COOKIE, verifySessionToken, type SessionPayload } from '@/lib/a
 
 export const runtime = 'nodejs'
 
-const PUBLIC_ADMIN_PATHS = ['/admin/login', '/api/admin/login']
+// Logging out must work regardless of role or even an already-invalid
+// session - otherwise non-admin roles get 403'd by the role check below
+// before the route handler ever runs, and their cookie never actually
+// gets cleared (this was a real bug: admin could log out fine since it
+// bypasses the role check entirely, pastor/servidor could not).
+const PUBLIC_ADMIN_PATHS = ['/admin/login', '/api/admin/login', '/api/admin/logout']
 
 // admin-only sections - eventos/horarios stay a single-owner concern.
 const ADMIN_ONLY = [
