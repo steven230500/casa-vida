@@ -64,11 +64,20 @@ function checkRoleAccess(
   return null
 }
 
+// Admin pages must never be served from the browser's back/forward cache -
+// otherwise hitting "back" after logging out can show a fully rendered
+// previous session's page straight from memory, without a request ever
+// reaching this middleware to catch it.
+function withNoStore(response: NextResponse) {
+  response.headers.set('Cache-Control', 'no-store, must-revalidate')
+  return response
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   if (PUBLIC_ADMIN_PATHS.includes(pathname)) {
-    return NextResponse.next()
+    return withNoStore(NextResponse.next())
   }
 
   const token = request.cookies.get(SESSION_COOKIE)?.value
@@ -76,16 +85,16 @@ export function middleware(request: NextRequest) {
 
   if (!session) {
     if (pathname.startsWith('/api/admin')) {
-      return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
+      return withNoStore(NextResponse.json({ error: 'No autorizado' }, { status: 401 }))
     }
     const loginUrl = new URL('/admin/login', request.url)
-    return NextResponse.redirect(loginUrl)
+    return withNoStore(NextResponse.redirect(loginUrl))
   }
 
   const roleCheck = checkRoleAccess(request, session)
-  if (roleCheck) return roleCheck
+  if (roleCheck) return withNoStore(roleCheck)
 
-  return NextResponse.next()
+  return withNoStore(NextResponse.next())
 }
 
 export const config = {
