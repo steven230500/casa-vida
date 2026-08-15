@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Plus, Trash2, X } from 'lucide-react'
+import { Plus, Trash2, Pencil, X } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
@@ -44,19 +44,35 @@ const emptyForm: FormState = {
 
 export function UsersManager({ initialUsers }: { initialUsers: AdminUser[] }) {
   const [users, setUsers] = useState(initialUsers)
-  const [creating, setCreating] = useState(false)
+  const [formMode, setFormMode] = useState<'create' | 'edit' | null>(null)
+  const [editingId, setEditingId] = useState<string | null>(null)
   const [form, setForm] = useState<FormState>(emptyForm)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   function startCreate() {
     setForm(emptyForm)
-    setCreating(true)
+    setFormMode('create')
+    setEditingId(null)
+    setError(null)
+  }
+
+  function startEdit(user: AdminUser) {
+    setForm({
+      email: user.email,
+      password: '',
+      fullName: user.fullName,
+      role: user.role,
+      pastorName: user.pastorName ?? '',
+    })
+    setFormMode('edit')
+    setEditingId(user.id)
     setError(null)
   }
 
   function cancel() {
-    setCreating(false)
+    setFormMode(null)
+    setEditingId(null)
     setError(null)
   }
 
@@ -65,23 +81,30 @@ export function UsersManager({ initialUsers }: { initialUsers: AdminUser[] }) {
     setSaving(true)
     setError(null)
 
-    const res = await fetch('/api/admin/users', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    })
+    const isEdit = formMode === 'edit' && editingId
+    const res = await fetch(
+      isEdit ? `/api/admin/users/${editingId}` : '/api/admin/users',
+      {
+        method: isEdit ? 'PUT' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      },
+    )
 
     if (!res.ok) {
       const data = await res.json().catch(() => ({}))
-      setError(data.error ?? 'No se pudo crear')
+      setError(data.error ?? (isEdit ? 'No se pudo actualizar' : 'No se pudo crear'))
       setSaving(false)
       return
     }
 
     const { user } = await res.json()
-    setUsers((prev) => [...prev, user])
+    setUsers((prev) =>
+      isEdit ? prev.map((u) => (u.id === user.id ? user : u)) : [...prev, user],
+    )
     setSaving(false)
-    setCreating(false)
+    setFormMode(null)
+    setEditingId(null)
   }
 
   async function onDelete(id: string) {
@@ -94,7 +117,7 @@ export function UsersManager({ initialUsers }: { initialUsers: AdminUser[] }) {
 
   return (
     <div>
-      {!creating && (
+      {!formMode && (
         <button
           type="button"
           onClick={startCreate}
@@ -105,13 +128,15 @@ export function UsersManager({ initialUsers }: { initialUsers: AdminUser[] }) {
         </button>
       )}
 
-      {creating && (
+      {formMode && (
         <form
           onSubmit={onSubmit}
           className="grid gap-5 rounded-t-[2.5rem] rounded-b-2xl border border-foreground/10 bg-muted p-8"
         >
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold tracking-tight">Nuevo usuario</h2>
+            <h2 className="text-lg font-semibold tracking-tight">
+              {formMode === 'edit' ? 'Editar usuario' : 'Nuevo usuario'}
+            </h2>
             <button
               type="button"
               onClick={cancel}
@@ -146,14 +171,20 @@ export function UsersManager({ initialUsers }: { initialUsers: AdminUser[] }) {
 
           <div className="grid gap-5 sm:grid-cols-2">
             <div className="grid gap-2">
-              <Label htmlFor="u-password">Contraseña</Label>
+              <Label htmlFor="u-password">
+                {formMode === 'edit' ? 'Nueva contraseña' : 'Contraseña'}
+              </Label>
               <Input
                 id="u-password"
                 type="text"
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
-                placeholder="Mínimo 8 caracteres"
-                required
+                placeholder={
+                  formMode === 'edit'
+                    ? 'Dejar en blanco para no cambiarla'
+                    : 'Mínimo 8 caracteres'
+                }
+                required={formMode !== 'edit'}
               />
             </div>
             <div className="grid gap-2">
@@ -201,12 +232,18 @@ export function UsersManager({ initialUsers }: { initialUsers: AdminUser[] }) {
             disabled={saving}
             className="inline-flex w-fit items-center justify-center rounded-full bg-foreground px-7 py-3.5 text-sm font-medium text-background transition-colors hover:bg-foreground/90 disabled:opacity-60"
           >
-            {saving ? 'Creando…' : 'Crear usuario'}
+            {formMode === 'edit'
+              ? saving
+                ? 'Guardando…'
+                : 'Guardar cambios'
+              : saving
+                ? 'Creando…'
+                : 'Crear usuario'}
           </button>
         </form>
       )}
 
-      {!creating && (
+      {!formMode && (
         <div className="mt-8 flex flex-col">
           <div className="border-t border-foreground/10" />
           {users.length === 0 && (
@@ -231,7 +268,15 @@ export function UsersManager({ initialUsers }: { initialUsers: AdminUser[] }) {
                   {u.pastorName ? ` · ${u.pastorName}` : ''}
                 </p>
               </div>
-              <div className="flex sm:col-span-3 sm:justify-end">
+              <div className="flex gap-2 sm:col-span-3 sm:justify-end">
+                <button
+                  type="button"
+                  onClick={() => startEdit(u)}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-foreground/15 px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-background"
+                >
+                  <Pencil className="size-3.5" />
+                  Editar
+                </button>
                 <button
                   type="button"
                   onClick={() => onDelete(u.id)}

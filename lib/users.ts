@@ -40,6 +40,31 @@ export async function createUser(input: {
   return row
 }
 
+export async function updateUser(
+  id: string,
+  input: {
+    email: string
+    password?: string
+    fullName: string
+    role: Role
+    pastorName?: string | null
+  },
+): Promise<AdminUser | undefined> {
+  const db = getDb()
+  const [row] = await db
+    .update(users)
+    .set({
+      email: input.email.trim().toLowerCase(),
+      fullName: input.fullName,
+      role: input.role,
+      pastorName: input.role === 'pastor' ? (input.pastorName ?? null) : null,
+      ...(input.password ? { passwordHash: hashPassword(input.password) } : {}),
+    })
+    .where(eq(users.id, id))
+    .returning(columns)
+  return row
+}
+
 export async function deleteUser(id: string): Promise<boolean> {
   const db = getDb()
   const [row] = await db.delete(users).where(eq(users.id, id)).returning({ id: users.id })
