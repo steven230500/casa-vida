@@ -7,13 +7,28 @@ export async function PUT(
 ) {
   const { id } = await params
   const body = await request.json()
-  const person = await updatePerson(id, body)
 
-  if (!person) {
-    return NextResponse.json({ error: 'No encontrado' }, { status: 404 })
+  try {
+    const person = await updatePerson(id, {
+      ...body,
+      email: body.email || null,
+      phone: body.phone || null,
+      birthdate: body.birthdate || null,
+      notes: body.notes || null,
+    })
+
+    if (!person) {
+      return NextResponse.json({ error: 'No encontrado' }, { status: 404 })
+    }
+
+    return NextResponse.json({ person })
+  } catch (error) {
+    console.error('Error updating person:', error)
+    return NextResponse.json(
+      { error: 'No se pudo guardar los cambios' },
+      { status: 500 },
+    )
   }
-
-  return NextResponse.json({ person })
 }
 
 export async function DELETE(
