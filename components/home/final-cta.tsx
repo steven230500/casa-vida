@@ -28,8 +28,8 @@ export function FinalCta() {
         </h2>
         <Reveal delay={0.15}>
           <p className="mt-6 max-w-lg text-lg leading-relaxed text-background/70">
-            No necesitas vestirte de nada ni saber nada. Solo ven como estás —
-            aquí hay lugar para ti.
+            Ven tal como estás. Aquí nunca se te cierra la puerta — hay lugar
+            para ti.
           </p>
         </Reveal>
         <Reveal delay={0.25} className="mt-10">
