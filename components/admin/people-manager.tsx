@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Plus, Pencil, Trash2, X, Search, Download } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -155,6 +155,26 @@ export function PeopleManager({
       return haystack.includes(q)
     })
   }, [people, filter, query])
+
+  // Scroll-shadow affordance: the table is wider than most viewports, so
+  // without a visual cue it just looks cut off on the right instead of
+  // scrollable. Fades appear/disappear as the container is scrolled.
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(false)
+
+  function updateScrollShadows() {
+    const el = scrollRef.current
+    if (!el) return
+    setCanScrollLeft(el.scrollLeft > 0)
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1)
+  }
+
+  useEffect(() => {
+    updateScrollShadows()
+    window.addEventListener('resize', updateScrollShadows)
+    return () => window.removeEventListener('resize', updateScrollShadows)
+  }, [filtered])
 
   async function onExport() {
     const XLSX = await import('xlsx')
@@ -367,12 +387,23 @@ export function PeopleManager({
       )}
 
       {!showForm && (
-        <div className="mt-6 overflow-x-auto rounded-2xl border border-foreground/10">
+        <div className="relative mt-6 rounded-2xl border border-foreground/10">
+          {canScrollLeft && (
+            <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-background to-transparent" />
+          )}
+          {canScrollRight && (
+            <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-background to-transparent" />
+          )}
+          <div
+            ref={scrollRef}
+            onScroll={updateScrollShadows}
+            className="overflow-x-auto rounded-2xl"
+          >
           <table className="w-full min-w-[900px] text-left text-sm">
             <thead>
               <tr className="border-b border-foreground/10 bg-muted text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                <th className="px-4 py-3">Estado</th>
-                <th className="px-4 py-3">Nombre</th>
+                <th className="sticky left-0 z-[1] bg-muted px-4 py-3">Estado</th>
+                <th className="sticky left-[92px] z-[1] bg-muted px-4 py-3">Nombre</th>
                 <th className="px-4 py-3">Correo</th>
                 <th className="px-4 py-3">Teléfono</th>
                 <th className="px-4 py-3">Barrio</th>
@@ -399,12 +430,14 @@ export function PeopleManager({
                   key={p.id}
                   className="border-b border-foreground/10 last:border-0 hover:bg-muted/40"
                 >
-                  <td className="px-4 py-3">
+                  <td className="sticky left-0 z-[1] bg-background px-4 py-3">
                     <span className="rounded-full bg-muted px-3 py-1 text-[11px] font-medium tracking-wide uppercase">
                       {statusLabels[p.status]}
                     </span>
                   </td>
-                  <td className="px-4 py-3 font-medium">{p.fullName}</td>
+                  <td className="sticky left-[92px] z-[1] bg-background px-4 py-3 font-medium">
+                    {p.fullName}
+                  </td>
                   <td className="px-4 py-3 text-muted-foreground">
                     {p.email || '—'}
                   </td>
@@ -448,6 +481,7 @@ export function PeopleManager({
               ))}
             </tbody>
           </table>
+          </div>
           <p className="border-t border-foreground/10 px-4 py-3 text-xs text-muted-foreground">
             {filtered.length} {filtered.length === 1 ? 'persona' : 'personas'}
             {filtered.length !== people.length ? ` de ${people.length}` : ''}
