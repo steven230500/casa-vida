@@ -10,6 +10,8 @@ export type PersonInput = {
   phone?: string | null
   birthdate?: string | null
   status: PersonStatus
+  neighborhood?: string | null
+  caregiverName?: string | null
   notes?: string | null
 }
 

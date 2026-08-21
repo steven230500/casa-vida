@@ -14,6 +14,8 @@ export async function PUT(
       email: body.email || null,
       phone: body.phone || null,
       birthdate: body.birthdate || null,
+      neighborhood: body.neighborhood || null,
+      caregiverName: body.caregiverName || null,
       notes: body.notes || null,
     })
 

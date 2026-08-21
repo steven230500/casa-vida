@@ -24,6 +24,8 @@ export async function POST(request: Request) {
     phone: body.phone || null,
     birthdate: body.birthdate || null,
     status: body.status,
+    neighborhood: body.neighborhood || null,
+    caregiverName: body.caregiverName || null,
     notes: body.notes || null,
   })
   return NextResponse.json({ person }, { status: 201 })
