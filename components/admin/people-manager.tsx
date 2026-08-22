@@ -5,6 +5,7 @@ import { Plus, Pencil, Trash2, X, Search, Download } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
+import { BirthdatePicker } from '@/components/admin/birthdate-picker'
 import {
   Select,
   SelectContent,
@@ -331,12 +332,11 @@ export function PeopleManager({
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="p-birthdate">Fecha de nacimiento</Label>
-              <Input
-                id="p-birthdate"
-                type="date"
+              <Label>Fecha de nacimiento</Label>
+              <BirthdatePicker
+                key={editingId ?? 'new'}
                 value={form.birthdate}
-                onChange={(e) => setForm({ ...form, birthdate: e.target.value })}
+                onChange={(v) => setForm({ ...form, birthdate: v })}
               />
             </div>
           </div>
