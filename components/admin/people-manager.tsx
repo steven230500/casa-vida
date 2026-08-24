@@ -241,7 +241,7 @@ export function PeopleManager({
             />
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             {(['todos', 'nuevo', 'visitante', 'miembro'] as const).map(
               (f) => (
                 <button
