@@ -84,7 +84,7 @@ export function BirthdatePicker({
         value={day ? String(day) : undefined}
         onValueChange={(v) => pick({ day: Number(v) })}
       >
-        <SelectTrigger className="w-full">
+        <SelectTrigger className="w-full min-w-0">
           <SelectValue placeholder="Día" />
         </SelectTrigger>
         <SelectContent alignItemWithTrigger={false}>
@@ -100,8 +100,8 @@ export function BirthdatePicker({
         value={month ? String(month) : undefined}
         onValueChange={(v) => pick({ month: Number(v) })}
       >
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder="Mes">
+        <SelectTrigger className="w-full min-w-0">
+          <SelectValue placeholder="Mes" className="truncate">
             {month ? MONTHS[month - 1] : undefined}
           </SelectValue>
         </SelectTrigger>
@@ -118,7 +118,7 @@ export function BirthdatePicker({
         value={year ? String(year) : undefined}
         onValueChange={(v) => pick({ year: Number(v) })}
       >
-        <SelectTrigger className="w-full">
+        <SelectTrigger className="w-full min-w-0">
           <SelectValue placeholder="Año" />
         </SelectTrigger>
         <SelectContent alignItemWithTrigger={false}>
