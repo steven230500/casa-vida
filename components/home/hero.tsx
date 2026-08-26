@@ -32,7 +32,7 @@ export function Hero() {
             transition={{ delay: 0.1 }}
             className="mb-8 flex items-center gap-3 text-[11px] font-medium tracking-[0.28em] uppercase text-muted-foreground"
           >
-            <LogoMark className="size-5 text-foreground" strokeWidth={6} />
+            <LogoMark className="size-5 text-foreground" />
             Iglesia en {church.city}, {church.country}
           </motion.div>
 

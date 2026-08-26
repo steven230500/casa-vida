@@ -29,7 +29,7 @@ export function AdminHeader({
             href="/admin"
             className="flex items-center gap-2 text-foreground"
           >
-            <LogoMark className="size-6" strokeWidth={5} />
+            <LogoMark className="size-6" />
             <span className="text-sm font-semibold tracking-[0.2em] uppercase">
               Panel
             </span>

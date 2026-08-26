@@ -46,7 +46,7 @@ export default function AdminLoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-background px-5">
       <div className="w-full max-w-sm">
         <div className="mb-8 flex flex-col items-center gap-3 text-center">
-          <LogoMark className="size-9" strokeWidth={5} />
+          <LogoMark className="size-9" />
           <h1 className="text-xl font-semibold tracking-tight">
             Panel de Casa Vida
           </h1>

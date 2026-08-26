@@ -21,7 +21,7 @@ export function FinalCta() {
 
       <div className="relative mx-auto flex max-w-4xl flex-col items-center px-5 py-24 text-center md:py-36">
         <Reveal direction="none">
-          <LogoMark className="size-12 text-beige" strokeWidth={5} />
+          <LogoMark className="size-12 text-beige" />
         </Reveal>
         <h2 className="mt-8 text-[clamp(2.5rem,8vw,5.5rem)] leading-[0.95] font-semibold tracking-[-0.04em]">
           <MaskedHeading lines={['Te esperamos', 'este domingo']} />
