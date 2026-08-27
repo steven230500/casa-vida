@@ -8,6 +8,7 @@ import {
   integer,
   timestamp,
 } from 'drizzle-orm/pg-core'
+import type { LinkIcon } from '@/lib/data'
 
 export const roleValues = ['admin', 'pastor', 'servidor'] as const
 export type Role = (typeof roleValues)[number]
@@ -80,6 +81,15 @@ export const pastorAvailability = pgTable('pastor_availability', {
   slotMinutes: integer('slot_minutes').notNull().default(30),
   active: boolean('active').notNull().default(true),
   createdAt: timestamp('created_at').notNull().defaultNow(),
+})
+
+export const links = pgTable('links', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  title: text('title').notNull(),
+  url: text('url').notNull(),
+  icon: text('icon').$type<LinkIcon>().notNull(),
+  order: integer('order').notNull().default(0),
+  active: boolean('active').notNull().default(true),
 })
 
 export const appointmentStatusValues = [

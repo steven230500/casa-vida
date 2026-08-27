@@ -1,8 +1,12 @@
 import { eq, like, asc } from 'drizzle-orm'
 import { getDb } from '@/lib/db'
-import { events as eventsTable, serviceTimes as serviceTimesTable } from '@/lib/db/schema'
+import {
+  events as eventsTable,
+  serviceTimes as serviceTimesTable,
+  links as linksTable,
+} from '@/lib/db/schema'
 import { serviceTimes as seedServiceTimes } from '@/lib/data'
-import type { ChurchEvent, ServiceTime } from '@/lib/data'
+import type { ChurchEvent, ServiceTime, Link } from '@/lib/data'
 
 export type StoredEvent = ChurchEvent & { id: string }
 
@@ -102,4 +106,24 @@ export async function replaceServiceTimes(
     .insert(serviceTimesTable)
     .values(times.map((t, i) => ({ ...t, order: i })))
   return times
+}
+
+export async function listLinks(): Promise<Link[]> {
+  const db = getDb()
+  return db.select().from(linksTable).orderBy(asc(linksTable.order))
+}
+
+// For the public /enlaces page - only what staff has marked visible.
+export async function listActiveLinks(): Promise<Link[]> {
+  const all = await listLinks()
+  return all.filter((l) => l.active)
+}
+
+export async function replaceLinks(links: Link[]): Promise<Link[]> {
+  const db = getDb()
+  await db.delete(linksTable)
+  if (links.length > 0) {
+    await db.insert(linksTable).values(links.map((l, i) => ({ ...l, order: i })))
+  }
+  return links
 }

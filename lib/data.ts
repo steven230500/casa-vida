@@ -65,6 +65,29 @@ export const nav = [
   { label: 'Ofrenda', href: '/ofrenda' },
 ]
 
+export const linkIconKeys = [
+  'instagram',
+  'whatsapp',
+  'facebook',
+  'youtube',
+  'tiktok',
+  'spotify',
+  'telegram',
+  'x',
+  'threads',
+  'website',
+  'email',
+  'phone',
+] as const
+export type LinkIcon = (typeof linkIconKeys)[number]
+
+export type Link = {
+  title: string
+  url: string
+  icon: LinkIcon
+  active: boolean
+}
+
 export type ServiceTime = {
   day: string
   time: string

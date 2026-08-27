@@ -18,6 +18,8 @@ const ADMIN_ONLY = [
   '/api/admin/service-times',
   '/admin/usuarios',
   '/api/admin/users',
+  '/admin/enlaces',
+  '/api/admin/links',
 ]
 
 // servidor: read-only on Personas, no other admin section.
