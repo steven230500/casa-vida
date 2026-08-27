@@ -30,9 +30,9 @@ export default async function EnlacesPage() {
 
   return (
     <div className="relative flex min-h-screen flex-col items-center overflow-hidden bg-foreground px-5 py-16">
-      <div className="absolute inset-0 grid grid-cols-2 gap-1 sm:grid-cols-3">
+      <div className="absolute inset-0 grid grid-cols-2 grid-rows-3 gap-1 sm:grid-cols-3 sm:grid-rows-2">
         {GALLERY.map((src) => (
-          <div key={src} className="relative aspect-square">
+          <div key={src} className="relative">
             <Image src={src} alt="" fill sizes="34vw" className="object-cover" />
           </div>
         ))}
