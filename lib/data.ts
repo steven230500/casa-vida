@@ -78,6 +78,7 @@ export const linkIconKeys = [
   'website',
   'email',
   'phone',
+  'form',
 ] as const
 export type LinkIcon = (typeof linkIconKeys)[number]
 

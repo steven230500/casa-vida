@@ -1,4 +1,4 @@
-import { Globe, Mail, Phone } from 'lucide-react'
+import { Globe, Mail, Phone, UserPlus } from 'lucide-react'
 import {
   SiInstagram,
   SiWhatsapp,
@@ -25,6 +25,7 @@ export const LINK_ICONS: Record<LinkIcon, React.ComponentType<{ className?: stri
   website: Globe,
   email: Mail,
   phone: Phone,
+  form: UserPlus,
 }
 
 export const LINK_ICON_LABELS: Record<LinkIcon, string> = {
@@ -40,4 +41,5 @@ export const LINK_ICON_LABELS: Record<LinkIcon, string> = {
   website: 'Sitio web',
   email: 'Correo',
   phone: 'Teléfono',
+  form: 'Formulario de registro',
 }
