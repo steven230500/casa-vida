@@ -1,34 +1,56 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowUpRight, CalendarDays } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import { Reveal } from '@/components/motion/reveal'
 import { SectionLabel } from '@/components/brand/section-label'
-import { formatDate, type ChurchEvent } from '@/lib/data'
+import { formatDate, type ChurchEvent, type ServiceTime } from '@/lib/data'
 
-export function EventsPreview({ events }: { events: ChurchEvent[] }) {
+export function EventsPreview({
+  events,
+  serviceTimes,
+}: {
+  events: ChurchEvent[]
+  serviceTimes: ServiceTime[]
+}) {
   const upcoming = events.slice(0, 3)
 
+  // An empty "próximos eventos" box reads as "nothing is happening here"
+  // even when it isn't true - while there's no extra agenda, show the
+  // regular weekly rhythm instead of a bare placeholder.
   if (upcoming.length === 0) {
     return (
       <section className="border-t border-foreground/10 bg-background py-16 md:py-28">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <SectionLabel number="05" className="text-muted-foreground">
-            Agenda
+            Esta semana
           </SectionLabel>
           <h2 className="mt-6 text-[clamp(2rem,5vw,3.75rem)] leading-[1.02] font-semibold tracking-[-0.03em] text-balance">
-            Próximos eventos
+            Durante la semana en Casa Vida
           </h2>
-          <Reveal>
-            <div className="mt-12 flex flex-col items-start gap-4 rounded-t-[2.5rem] rounded-b-2xl border border-foreground/10 bg-muted px-8 py-14 md:py-16">
-              <div className="flex size-12 items-center justify-center rounded-full bg-background">
-                <CalendarDays className="size-5 text-muted-foreground" />
-              </div>
-              <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-                Todavía no hay eventos agendados. Estamos preparando lo que
-                viene — vuelve pronto.
-              </p>
-            </div>
-          </Reveal>
+
+          <div className="mt-12 flex flex-col">
+            {serviceTimes.map((s, i) => (
+              <Reveal key={s.day} delay={i * 0.06}>
+                <div className="grid grid-cols-1 items-center gap-2 border-t border-foreground/10 py-6 md:grid-cols-12 md:gap-6 md:py-8">
+                  <div className="md:col-span-2">
+                    <span className="text-[11px] font-medium tracking-[0.2em] uppercase text-muted-foreground">
+                      {s.day}
+                    </span>
+                  </div>
+                  <div className="md:col-span-6">
+                    <h3 className="text-2xl font-semibold tracking-[-0.02em] md:text-3xl">
+                      {s.title}
+                    </h3>
+                  </div>
+                  <div className="text-sm text-muted-foreground md:col-span-4">
+                    <p>{s.time}</p>
+                    <p>{s.description}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+            <div className="border-t border-foreground/10" />
+          </div>
         </div>
       </section>
     )

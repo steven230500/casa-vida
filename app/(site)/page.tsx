@@ -32,7 +32,7 @@ export default async function HomePage() {
       <About />
       <MinistriesGrid />
       <SermonsPreview />
-      <EventsPreview events={events} />
+      <EventsPreview events={events} serviceTimes={serviceTimes} />
       <Location />
       <Connect />
       <FinalCta />
