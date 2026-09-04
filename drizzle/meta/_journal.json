@@ -50,6 +50,13 @@
       "when": 1787814022633,
       "tag": "0006_seed_registration_link",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1788551354816,
+      "tag": "0007_seed_carlos_pastor_user",
+      "breakpoints": true
     }
   ]
 }

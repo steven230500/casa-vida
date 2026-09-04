@@ -25,12 +25,15 @@ const ADMIN_ONLY = [
 // servidor: read-only on Personas, no other admin section.
 const SERVIDOR_ALLOWED_PREFIXES = ['/admin/personas', '/api/admin/people']
 
-// pastor: only Agenda (their own availability/appointments - the actual
-// per-pastor row scoping happens in the route handlers, not here).
+// pastor: Agenda (their own availability/appointments - the actual
+// per-pastor row scoping happens in the route handlers, not here) plus
+// full access to Personas, unlike servidor's read-only scope.
 const PASTOR_ALLOWED_PREFIXES = [
   '/admin/agenda',
   '/api/admin/availability',
   '/api/admin/appointments',
+  '/admin/personas',
+  '/api/admin/people',
 ]
 
 function denied(request: NextRequest) {
