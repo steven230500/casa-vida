@@ -10,6 +10,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/eventos',
     '/visita',
     '/ofrenda',
+    '/cita',
+    '/enlaces',
   ].map((path) => ({
     url: `${siteUrl}${path}`,
     lastModified: new Date(),
