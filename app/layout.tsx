@@ -33,12 +33,14 @@ export const metadata: Metadata = {
     locale: 'es_CO',
     url: siteUrl,
     siteName: 'Casa Vida',
+    images: [{ url: '/images/real-pastor.jpg', alt: 'Casa Vida en Cartagena' }],
     title: 'Casa Vida — Iglesia en Cartagena',
     description:
       'Aquí hay lugar para ti. Una comunidad de fe en el corazón de Cartagena.',
   },
   twitter: {
     card: 'summary_large_image',
+    images: ['/images/real-pastor.jpg'],
     title: 'Casa Vida — Iglesia en Cartagena',
     description: 'Aquí hay lugar para ti. Una comunidad de fe en Cartagena.',
   },

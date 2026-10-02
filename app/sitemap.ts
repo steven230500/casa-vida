@@ -14,12 +14,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/enlaces',
   ].map((path) => ({
     url: `${siteUrl}${path}`,
-    lastModified: new Date(),
   }))
 
   const ministryRoutes = ministries.map((m) => ({
     url: `${siteUrl}/ministerios/${m.slug}`,
-    lastModified: new Date(),
   }))
 
   return [...staticRoutes, ...ministryRoutes]
